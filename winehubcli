@@ -1,0 +1,132 @@
+#!/bin/sh
+## A Powerful Wine Configuration Script
+## Depends: wine, winetricks, zenity/kdialog
+## Optionsal Depends: gamemode, fsync patches, esync patches
+
+## Uncomment For Feral Gamemode Support (Can give a more consistant experience)
+#_feral_gamemode=1
+
+## Uncomment For Esync Support (Can give a more consistant experience)
+#_wineesync=1
+
+## Uncomment For Fsync Support (Can give a more consistant experience)
+#_winefsync=1
+
+## Set Wineprefix To Root Directory Of Prefix
+wineprefix="$PWD"
+
+## Windows Architecture (win32 or win64)
+winearch="$1"
+
+## Path To Wine Binaries (i.e. wine, wine64, wineserver, etc...), (Default is /usr/bin)
+# Make Sure an absolute path is given.
+winepath="$2"
+
+## Command Subtype (Default is to take a command line argument, if you want to make this a launcher, type in the specific command mentioned above.)
+_command="$3"
+
+## Windows .exe To Run (Default is to take a command line argument, if you want to make this a launcher, type in the path of the .exe file.)
+# Make Sure an absolute path is given.
+_executable="$4"
+
+## Options for Windows games/apps (i.e. -game rogue for Quake 1 mission pack 2) (Default is empty, no additional optional flags used.)
+_options="$5"
+
+## Convert all characters to lower case in launcher file name.
+_lower_case_path=$(echo "${_executable}" | tr "[:upper:]" "[:lower:]")
+
+## Create a shell script launcher for Wine.
+_launcher=$(basename "${_lower_case_path/.exe/}")
+
+## <-- DO NOT EDIT BEYOND THIS POINT UNLESS YOU KNOW WHAT YOUR DOING -->
+
+ if [[ "${winearch}" == "win32" ]] || [[ "${winearch}" == "win64" ]]; then
+    if [[ -f "${winepath}/wine" ]]; then
+        if [[ "${_command}" == "create_launcher" ]]; then
+            echo "#!/bin/sh" > "${_launcher}"
+            if [[ "$_feral_gamemode" == "1" ]]; then
+                if [[ "${_wineesync}" == "1" ]]; then
+                    if [[ "${_options}" == "" ]]; then
+                        echo "gamemoderun WINEESYNC=\"${_wineesync}\" WINEPATH=\"$winepath\" WINELOADER=\"$winepath/wine\" WINESERVER=\"$winepath/wineserver\" WINEPREFIX=\"$wineprefix\" \"$winepath/wine\" \"${_executable}\"" >> "${prefix}/${_launcher}"
+                    else
+                        echo "gamemoderun WINEESYNC=\"${_wineesync}\" WINEPATH=\"$winepath\" WINELOADER=\"$winepath/wine\" WINESERVER=\"$winepath/wineserver\" WINEPREFIX=\"$wineprefix\" \"$winepath/wine\" \"${_executable}\"" "${_options}" >> "${prefix}/${_launcher}"
+                    fi
+                elif [[ "${_winefsync}" == "1" ]]; then
+                    if [[ "${_options}" == "" ]]; then
+                        echo "gamemoderun WINEFSYNC=\"${_winefsync}\" WINEPATH=\"$winepath\" WINELOADER=\"$winepath/wine\" WINESERVER=\"$winepath/wineserver\" WINEPREFIX=\"$wineprefix\" \"$winepath/wine\" \"${_executable}\"" >> "${prefix}/${_launcher}"
+                    else
+                        echo "gamemoderun WINEFSYNC=\"${_winefsync}\" WINEPATH=\"$winepath\" WINELOADER=\"$winepath/wine\" WINESERVER=\"$winepath/wineserver\" WINEPREFIX=\"$wineprefix\" \"$winepath/wine\" \"${_executable}\"" "${_options}" >> "${prefix}/${_launcher}"
+                    fi
+                else
+                    if [[ "${_options}" == "" ]]; then
+                        echo "gamemoderun WINEPATH=\"$winepath\" WINELOADER=\"$winepath/wine\" WINESERVER=\"$winepath/wineserver\" WINEPREFIX=\"$wineprefix\" \"$winepath/wine\" \"${_executable}\"" >> "${prefix}/${_launcher}"
+                    else
+                        echo "gamemoderun WINEPATH=\"$winepath\" WINELOADER=\"$winepath/wine\" WINESERVER=\"$winepath/wineserver\" WINEPREFIX=\"$wineprefix\" \"$winepath/wine\" \"${_executable}\"" "${_options}" >> "${prefix}/${_launcher}"
+                    fi
+                fi
+            else
+                if [[ "${_wineesync}" == "1" ]]; then
+                    if [[ "${_options}" == "" ]]; then
+                        echo "WINEESYNC=\"${_wineesync}\" WINEPATH=\"$winepath\" WINELOADER=\"$winepath/wine\" WINESERVER=\"$winepath/wineserver\" WINEPREFIX=\"$wineprefix\" \"$winepath/wine\" \"${_executable}\"" >> "${prefix}/${_launcher}"
+                    else
+                        echo "WINEESYNC=\"${_wineesync}\" WINEPATH=\"$winepath\" WINELOADER=\"$winepath/wine\" WINESERVER=\"$winepath/wineserver\" WINEPREFIX=\"$wineprefix\" \"$winepath/wine\" \"${_executable}\"" "${_options}" >> "${prefix}/${_launcher}"
+                    fi
+                elif [[ "${_winefsync}" == "1" ]]; then
+                    if [[ "${_options}" == "" ]]; then
+                        echo "WINEFSYNC=\"${_winefsync}\" WINEPATH=\"$winepath\" WINELOADER=\"$winepath/wine\" WINESERVER=\"$winepath/wineserver\" WINEPREFIX=\"$wineprefix\" \"$winepath/wine\" \"${_executable}\"" >> "${prefix}/${_launcher}"
+                    else
+                        echo "WINEFSYNC=\"${_winefsync}\" WINEPATH=\"$winepath\" WINELOADER=\"$winepath/wine\" WINESERVER=\"$winepath/wineserver\" WINEPREFIX=\"$wineprefix\" \"$winepath/wine\" \"${_executable}\"" "${_options}" >> "${prefix}/${_launcher}"
+                    fi
+                else
+                    if [[ "${_options}" == "" ]]; then
+                        echo "WINEPATH=\"$winepath\" WINELOADER=\"$winepath/wine\" WINESERVER=\"$winepath/wineserver\" WINEPREFIX=\"$wineprefix\" \"$winepath/wine\" \"${_executable}\"" >> "${prefix}/${_launcher}"
+                    else
+                        echo "WINEPATH=\"$winepath\" WINELOADER=\"$winepath/wine\" WINESERVER=\"$winepath/wineserver\" WINEPREFIX=\"$wineprefix\" \"$winepath/wine\" \"${_executable}\"" "${_options}" >> "${prefix}/${_launcher}"
+                    fi
+                fi
+            fi
+            chmod +x "${_launcher}"
+        elif [[ "${_command}" == "wineconfig" ]]; then
+            WINEARCH="$winearch" WINEPATH="$winepath" WINELOADER="$winepath/wine" WINESERVER="$winepath/wineserver" WINEPREFIX="$wineprefix" "$winepath/wine" winecfg
+        elif [[ "${_command}" == "winectrlpanel" ]]; then
+            WINEARCH="$winearch" WINEPATH="$winepath" WINELOADER="$winepath/wine" WINESERVER="$winepath/wineserver" WINEPREFIX="$wineprefix" "$winepath/wine" control
+        elif [[ "${_command}" == "wineregedit" ]]; then
+            WINEARCH="$winearch" WINEPATH="$winepath" WINELOADER="$winepath/wine" WINESERVER="$winepath/wineserver" WINEPREFIX="$wineprefix" "$winepath/wine" regedit
+        elif [[ "${_command}" == "winetricks" ]]; then
+            WINEARCH="$winearch" WINEPATH="$winepath" WINELOADER="$winepath/wine" WINESERVER="$winepath/wineserver" WINEPREFIX="$wineprefix" winetricks
+        else
+            echo "Usage: winehubcli <[architecture]> <[path to wine binary]> <[subcommand]> <[Windows .exe]> <optional parameters>"
+            echo ""
+            echo "Type a valid command"
+            echo ""
+            echo "Subcommands are:"
+            echo "create_launcher: Create a Windows .bat launcher"
+            echo "wineconfig: Wine configuration utility"
+            echo "winectrlpanel: Wine control panel"
+            echo "winetricks: Hacks for Windows apps"
+            echo ""
+        fi
+    else
+        echo "Usage: winehubcli <[architecture]> <[path to wine binary]> <[subcommand]> <[Windows .exe]> <optional parameters>"
+        echo ""
+        echo "Make sure the wine binary is in the path given to proceed"
+        echo ""
+        echo "Subcommands are:"
+        echo "create_launcher: Create a Windows .bat launcher"
+        echo "wineconfig: Wine configuration utility"
+        echo "winectrlpanel: Wine control panel"
+        echo "winetricks: Hacks for Windows apps"
+        echo ""
+    fi
+else
+    echo "Usage: winehubcli <[architecture]> <[path to wine binary]> <[subcommand]> <[Windows .exe]> <optional parameters>"
+    echo ""
+    echo "Type in a valid architecture. (either win32 or win64)"
+    echo ""
+    echo "Subcommands are:"
+    echo "create_launcher: Create a Windows .bat launcher"
+    echo "wineconfig: Wine configuration utility"
+    echo "winectrlpanel: Wine control panel"
+    echo "winetricks: Hacks for Windows apps"
+    echo ""
+fi

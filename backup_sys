@@ -1,0 +1,43 @@
+#!/bin/bash
+
+## Maintainer Alexander Mcmillan <linuxguy93@gmail.com>
+
+## Global Variables
+archive_name="SystemBackup-$(date +%Y%m%d_%H%M%S)" ## filename with no extensions please
+exclude_paths="/dev/* /home/* /proc/* /sys/* /tmp/* /run/media/* /mnt/* /media/* /srv/* /var/log/* /var/cache/* /lost+found /$archive_name" ## Paths to exclude from tar backup
+tar_paths=$(echo "$exclude_paths" | sed -e "s/^/--exclude=/g" -e "s/ / --exclude=/g") ## This filters the exclude_paths variable for use with tar
+
+# Dependencies
+# pacman -Sy bash bash-completion tar xz bzip2 gzip
+
+if [ "$USER" == "root" ]; then
+    if [ $# -eq 1 ]; then
+	    if [ "$1" == "xz" ]; then
+		    clear
+		    echo -e "\e[91;4mCompressing $archive_name.tar.$1\e[0m\n"
+		    sleep 5
+		    XZ_OPT="-9e --threads=$(nproc)" tar $tar_paths -cpvJf "$archive_name".tar."$1" --one-file-system /
+	    elif [ "$1" == "bz2" ]; then
+		    clear
+		    echo -e "\e[91;4mCompressing $archive_name.tar.$1\e[0m\n"
+		    sleep 5
+		    tar $tar_paths -cpvjf "$archive_name".tar."$1" --one-file-system /
+	    elif [ "$1" == "gz" ]; then
+		    clear
+		    echo -e "\e[91;4mCompressing $archive_name.tar.$1\e[0m\n"
+		    sleep 5
+		    tar $tar_paths -cpvzf "$archive_name".tar."$1" --one-file-system /
+	    elif [ "$1" == "none" ]; then
+		    clear
+		    echo -e "\e[91;4mMaking $archive_name.tar with no compression\e[0m\n"
+		    sleep 5
+		    tar $tar_paths -cpvf "$archive_name".tar --one-file-system /
+	    else
+		    echo -e "backup_sys [xz,bz2,gz,none]:\nxz=best compression\nbz2=good compression\ngz=average compression\nnone=no compression"
+	    fi
+    else
+        echo -e "backup_sys [xz,bz2,gz,none]:\nxz=best compression\nbz2=good compression\ngz=average compression\nnone=no compression"
+    fi
+else
+	echo "You Must Be Root!!"
+fi

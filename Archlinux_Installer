@@ -1,0 +1,244 @@
+#!/bin/sh
+
+## Distribution Name
+DISTRO_NAME="Archlinux"
+
+# Which device to install boot EFI on. Use 'blkid' command to get device. (i.e. /dev/nvme0n1p1)
+BOOT_DEVICE=""
+# Which device to install The OS on. Use 'blkid' command to get device. (i.e. /dev/nvme0n1p2)
+OS_DEVICE=""
+# Mountpoint for install. (i.e. /mnt)
+MOUNT_DIR=""
+
+# Computer and User Credentials
+HOSTNAME=""
+USERNAME=""
+PASSWORD=""
+
+# Keymap to use. Use the command 'localectl list-keymaps' to find your keyboard type (i.e. us)
+KEYMAP=""
+# System Locale/Language. Use the command 'cat /etc/locale.gen'. (i.e. en_US.UTF-8)
+LOCALE=""
+# Your Timezone. Use the command 'timedatectl list-timezones' to find your timezone. (i.e. America/Toronto)
+TIMEZONE=""
+
+# Do you want to format the partition type 'true' if you do, else the system will not be formatted. (default is true)
+FORMAT_DEVICE="true"
+
+# Do you want a gaming install type 'true' if you do, else gaming packages won't be installed. (default is true)
+GAMING="true"
+
+## Detect CPU and GPU. DON'T TOUCH THESE COMMANDS.
+DETECT_CPU=`cat /proc/cpuinfo | tr -d " " | head -10 | grep vendor_id | cut -d : -f 2`
+DETECT_GPU=`lspci | grep VGA | cut -d ":" -f 3 | cut -d " " -f 2`
+
+
+#<-- OS Install List -->
+
+## Install KDE Plasma desktop
+INSTALL_OS="alsa-card-profiles alsa-firmware alsa-lib alsa-plugins alsa-topology-conf alsa-ucm-conf alsa-utils apparmor appmenu-gtk-module archlinux-appstream-data argyllcms ark audiocd-kio baka-mplayer base base-devel bluedevil bluez bluez-cups bluez-hid2hci bluez-libs bluez-plugins bluez-qt bluez-utils btop cdparanoia cdrdao cdrtools chmlib chromium cups cups-filters cups-pdf darktable dcraw dolphin dolphin-plugins dvd+rw-tools e2fsprogs easy-rsa ebook-tools efibootmgr elisa espeak-ng espeak-ng-espeak exfatprogs extra-cmake-modules fatresize ffmpeg ffmpegthumbs firewalld flatpak freerdp frei0r-plugins fwupd fwupd-efi git gnu-free-fonts grub gst-libav gst-plugin-opencv gst-plugin-pipewire gst-plugins-bad gst-plugins-bad-libs gst-plugins-base gst-plugins-base-libs gst-plugins-espeak gst-plugins-good gst-plugins-ugly gstreamer-vaapi gwenview handbrake helvum hunspell hunspell-en_au hunspell-en_ca hunspell-en_gb hunspell-en_us hyphen hyphen-en k3b kaccounts-providers kamera kate kcalc kcm-wacomtablet kde-cli-tools kdeconnect kdegraphics-mobipocket kdegraphics-thumbnailers kdenlive kdialog keepassxc kf5 kf5-aids kio-extras kio-gdrive kipi-plugins konsole konversation kopete krdc krfb krita krita-plugin-gmic ktorrent lensfun libappimage libdbusmenu-gtk2 libdbusmenu-gtk3 libdbusmenu-qt5 libdbusmenu-qt6 libdvdcss libdvdnav libdvdread libindicator-gtk2 libindicator-gtk3 libmythes libpipewire02 linux-firmware linux-zen linux-zen-headers lrzip lsb-release lzop man-db man-pages mythes-en multilib-devel net-tools networkmanager networkmanager-openvpn noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra obs-studio okteta okular opencolorio opencv openssh opentimelineio orca p7zip partitionmanager perl-image-exiftool phonon-qt5-gstreamer phonon-qt5-vlc pipewire pipewire-alsa pipewire-jack pipewire-pulse pipewire-v4l2 pipewire-x11-bell pipewire-zeroconf plasma plasma5-applets-window-buttons plasma-wayland-protocols poppler-data poppler-qt5 pulsemixer python-lsp-server qt5-imageformats qt5-multimedia qt5-wayland qt6-wayland quota-tools realtime-privileges reflector rtirq rust skanlite soundkonverter source-highlight spectacle speech-dispatcher sshfs subversion sudo traceroute ttf-dejavu ttf-liberation unace unarchiver unrar unzip usbguard vcdimager vdpauinfo vi vim vim-runtime vlc wget wireplumber xdg-user-dirs-gtk xf86-input-libinput xfsprogs xorg xsettingsd youtube-dl yt-dlp zip zram-generator"
+
+## Gaming Related Packages
+INSTALL_GAMING="gamemode lib32-gamemode lib32-pipewire-jack lib32-pipewire-v4l2 lib32-vkd3d lutris steam steam-native-runtime wine-staging winetricks vkd3d"
+
+#<-- GPU Driver Install List -->
+
+## AMD GPU DRIVERS
+AMD_DRV="amf-headers lib32-libva-mesa-driver lib32-ocl-icd lib32-opencl-mesa lib32-vulkan-mesa-layers lib32-vulkan-radeon libva-mesa-driver ocl-icd opencl-clhpp opencl-headers opencl-mesa vulkan-radeon vulkan-mesa-layers"
+
+## INTEL GPU DRIVERS
+INTEL_DRV="intel-compute-runtime intel-media-driver intel-media-sdk lib32-libva-intel-driver lib32-libva-mesa-driver lib32-ocl-icd lib32-vulkan-intel lib32-vulkan-mesa-layers libva-intel-driver libva-mesa-driver ocl-icd opencl-clhpp opencl-headers vulkan-intel vulkan-mesa-layers"
+
+## NVIDIA GPU DRIVERS
+NVIDIA_DRV="lib32-libva-vdpau-driver lib32-nvidia-cg-toolkit lib32-nvidia-utils lib32-ocl-icd lib32-opencl-nvidia lib32-vulkan-mesa-layers libva-vdpau-driver libvdpau-va-gl nvidia-cg-toolkit nvidia-dkms nvidia-utils ocl-icd opencl-clhpp opencl-headers opencl-nvidia vulkan-mesa-layers"
+
+##<-- Install System, DO NOT EDIT BELOW THIS POINT IF YOU DON'T KNOW WHAT YOU'RE DOING! -->
+
+##<-- System Install Options -->
+install_os() {
+    ## Label BTRFS root partition
+    btrfs filesystem label $OS_DEVICE "${DISTRO_NAME}"
+
+    ## Mount root filesystem
+    mount -t btrfs $OS_DEVICE $MOUNT_DIR
+
+    ## Remove BTRFS subvolumes if they exist
+    if [[ -d "$MOUNT_DIR/@" ]]; then
+        rm -rf $MOUNT_DIR/@
+    fi
+    if [[ -d "$MOUNT_DIR/@snapshots" ]]; then
+        rm -rf $MOUNT_DIR/@snapshots
+    fi
+    if [[ -d "$MOUNT_DIR/@var" ]]; then
+        rm -rf $MOUNT_DIR/@var
+    fi
+
+    ## Create BTRFS subvolumes
+    btrfs subvolume create $MOUNT_DIR/@
+    btrfs subvolume create $MOUNT_DIR/@home
+    btrfs subvolume create $MOUNT_DIR/@snapshots
+    btrfs subvolume create $MOUNT_DIR/@var
+
+    ## Unmount root filesystem
+    umount $MOUNT_DIR
+    echo "Created Subvolumes..." && sleep 5
+
+    ## Mount root subvolume (Please use an SSD as this works best for BTRFS)
+    mount -t btrfs -o noatime,compress=zstd:3,discard=async,space_cache=v2,autodefrag,subvol=@ $OS_DEVICE $MOUNT_DIR
+
+    ## Make directories for other subvolumes
+    mkdir -p $MOUNT_DIR/{.snapshots,home,var}
+
+    ## Mount other subvolumes (Please use an SSD as this works best for BTRFS)
+    mount -t btrfs -o noatime,compress=zstd:3,discard=async,space_cache=v2,autodefrag,subvol=@home $OS_DEVICE $MOUNT_DIR/home
+    mount -t btrfs -o noatime,compress=zstd:3,discard=async,space_cache=v2,autodefrag,subvol=@snapshots $OS_DEVICE $MOUNT_DIR/.snapshots
+    mount -t btrfs -o noatime,compress=zstd:3,discard=async,space_cache=v2,autodefrag,subvol=@var $OS_DEVICE $MOUNT_DIR/var
+
+    ## Make efi directory
+    mkdir -p $MOUNT_DIR/boot/efi
+
+    ## Mount the efi partition
+    mount $BOOT_DEVICE $MOUNT_DIR/boot/efi
+    echo "Mounted Partitions and Subvolumes..." && sleep 5
+
+    ## Initialize pacman-keyring (host)
+    pacman -Syy --noconfirm archlinux-keyring
+    pacman-key --init
+    pacman-key --populate
+
+    ## Install pacman.conf
+    install -Dm644 /etc/pacman.conf $MOUNT_DIR/etc/pacman.conf
+
+    ## Install base packages
+    pacstrap $MOUNT_DIR $INSTALL_OS
+
+    ## Generate filesystem mounts
+    genfstab -U $MOUNT_DIR > $MOUNT_DIR/etc/fstab
+
+    ## Install the display drivers
+    if [[ "$DETECT_GPU" == "Advanced" ]]; then
+        ## Install AMD GPU drivers
+        arch-chroot $MOUNT_DIR pacman -S --noconfirm $AMD_DRV
+        echo "Installed AMD Drivers..." && sleep 5
+    elif [[ "$DETECT_GPU" == "Intel" ]]; then
+        ## Install Intel GPU drivers
+        arch-chroot $MOUNT_DIR pacman -S --noconfirm $INTEL_DRV
+        echo "Installed Intel Drivers..." && sleep 5
+    elif [[ "$DETECT_GPU" == "NVIDIA" ]]; then
+        ## Install Nvidia GPU drivers
+        arch-chroot $MOUNT_DIR pacman -S --noconfirm $NVIDIA_DRV
+        ## Enable Nvidia related services
+        arch-chroot $MOUNT_DIR systemctl enable nvidia-hibernate
+        arch-chroot $MOUNT_DIR systemctl enable nvidia-persistenced
+        arch-chroot $MOUNT_DIR systemctl enable nvidia-resume
+        arch-chroot $MOUNT_DIR systemctl enable nvidia-suspend
+        ## Enable early loading of Nvidia drivers
+        sed -i -e "s/MODULES=()/MODULES=(nvidia nvidia_modeset nvidia_uvm nvidia_drm)/" $MOUNT_DIR/etc/mkinitcpio.conf
+        echo "Installed Nvidia Drivers..." && sleep 5
+    fi
+
+    ## Install CPU firmware and create boot entry
+    if [[ "$DETECT_CPU" == "AuthenticAMD" ]]; then
+        ## Install AMD CPU Firmware
+        arch-chroot $MOUNT_DIR pacman -S --noconfirm amd-ucode
+    elif [[ "$DETECT_CPU" == "GenuineIntel" ]]; then
+        ## Install Intel CPU Firmware
+        arch-chroot $MOUNT_DIR pacman -S --noconfirm intel-ucode
+    fi
+
+    ## Install Gaming Related Packages
+    if [[ "$GAMING" == "true" ]]; then
+        arch-chroot $MOUNT_DIR pacman -S --noconfirm $INSTALL_GAMING
+    fi
+
+    ## Install GRUB Bootloader
+    arch-chroot $MOUNT_DIR grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=${DISTRO_NAME} ${BOOT_DEVICE}
+    sed -i -e "s/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 quiet\"/GRUB_CMDLINE_LINUX_DEFAULT=\"root=LABEL=${DISTRO_NAME} rootflags=subvol=@ loglevel=3 lsm=landlock,lockdown,yama,apparmor,bpf mitigations=off nvidia drm.modeset=1 threadirqs\"/" $MOUNT_DIR/etc/default/grub
+    arch-chroot $MOUNT_DIR grub-mkconfig -o /boot/grub/grub.cfg
+
+    ## Install ZRAM Configure
+    echo "[zram0]" > $MOUNT_DIR/etc/systemd/zram-generator.conf
+    echo "host-memory-limit = none" >> $MOUNT_DIR/etc/systemd/zram-generator.conf
+    echo "zram-size = min(ram / 2, 8192)" >> $MOUNT_DIR/etc/systemd/zram-generator.conf
+    echo "compression-algorithm = zstd" >> $MOUNT_DIR/etc/systemd/zram-generator.conf
+    echo "options = discard" >> $MOUNT_DIR/etc/systemd/zram-generator.conf
+    echo "swap-priority=32767" >> $MOUNT_DIR/etc/systemd/zram-generator.conf
+
+    ## Install Kernel Tweaks
+    echo "vm.swappiness = 10" > $MOUNT_DIR/etc/sysctl.d/90-swappiness.conf
+    echo "fs.inotify.max_user_watches = 600000" > $MOUNT_DIR/etc/sysctl.d/90-max_user_watches.conf
+
+    ## Set hostname
+    echo "$HOSTNAME" > $MOUNT_DIR/etc/hostname
+
+    ## Configure global environment for use with TTY CLI
+    echo "EDITOR=/usr/bin/vim" >> $MOUNT_DIR/etc/environment
+
+    ## Set system language
+    echo "LANG=$LOCALE" > $MOUNT_DIR/etc/locale.conf
+    sed -i -e "s/#$LOCALE/$LOCALE/" $MOUNT_DIR/etc/locale.gen
+    arch-chroot $MOUNT_DIR locale-gen
+    arch-chroot $MOUNT_DIR localectl set-locale LANG=$LOCALE LANGUAGE=$LOCALE
+
+    ## Set keyboard layout
+    arch-chroot $MOUNT_DIR localectl set-keymap $KEYMAP
+    arch-chroot $MOUNT_DIR localectl set-x11-keymap $KEYMAP
+
+    ## Set timezone and correct time
+    arch-chroot $MOUNT_DIR ln -sf /usr/share/zoneinfo/$TIMEZONE /etc/localtime
+
+    ## Create the new non-root user
+    arch-chroot $MOUNT_DIR useradd -m $USERNAME
+
+    ## Set password for the new user
+    echo "$USERNAME:$PASSWORD" | arch-chroot $MOUNT_DIR chpasswd
+
+    ## Enable the wheel group root privileges
+    sed -i -e 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' $MOUNT_DIR/etc/sudoers
+
+    ## Enable Plasma desktop services
+    arch-chroot $MOUNT_DIR systemctl enable apparmor.service
+    arch-chroot $MOUNT_DIR systemctl enable avahi-daemon.service
+    arch-chroot $MOUNT_DIR systemctl enable bluetooth.service
+    arch-chroot $MOUNT_DIR systemctl enable cups.service
+    arch-chroot $MOUNT_DIR systemctl enable fstrim.timer
+    arch-chroot $MOUNT_DIR systemctl enable NetworkManager.service
+    arch-chroot $MOUNT_DIR systemctl enable rtirq.service
+    arch-chroot $MOUNT_DIR systemctl enable rtirq-resume.service
+    arch-chroot $MOUNT_DIR systemctl enable sddm.service
+    arch-chroot $MOUNT_DIR systemctl enable sshd.service
+
+    ## Add user to groups
+    arch-chroot $MOUNT_DIR usermod -a -G audio $USERNAME
+    arch-chroot $MOUNT_DIR usermod -a -G flatpak $USERNAME
+    arch-chroot $MOUNT_DIR usermod -a -G games $USERNAME
+    arch-chroot $MOUNT_DIR usermod -a -G realtime $USERNAME
+    arch-chroot $MOUNT_DIR usermod -a -G video $USERNAME
+    arch-chroot $MOUNT_DIR usermod -a -G wheel $USERNAME
+    echo "Installed Archlinux OS..." && sleep 5
+}
+
+##<-- Partition Drives -->
+partition_system() {
+    ## Create A BTRFS root partition
+    mkfs.btrfs -f $OS_DEVICE
+
+    ## Create A UEFI Boot Partition
+    mkfs.vfat -F32 $BOOT_DEVICE
+    echo "Formatted Partitions..." && sleep 5
+}
+
+##<-- Unmount OS -->
+unmount_os() {
+    ## Unmount Filesystems
+    umount -lf $MOUNT_DIR
+}
+
+#<-- Main Program UNCOMMENT TO ACTIVATE --> ############
+if [[ $USER == "root" ]]; then
+    if [[ $FORMAT_DEVICE == "true" ]]; then
+        partition_system
+    fi
+    install_os
+    unmount_os
+fi

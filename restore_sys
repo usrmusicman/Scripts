@@ -1,0 +1,41 @@
+#!/bin/bash
+
+## Maintainer Alexander Mcmillan <linuxguy93@gmail.com>
+
+## Global Variables
+restore_point=$2
+
+# Dependencies
+# pacman -Sy bash bash-completion tar xz bzip2 gzip
+
+if [ "$USER" == "root" ]; then
+	if [ $# -gt 0 ] && [ $# -lt 3 ]; then
+	    if [ -f "$1" ] && [[ $(basename "$1") == *.tar.xz ]] && [ -d "$restore_point" ]; then
+		    clear
+		    echo -e "\e[91;4mRestoring $(basename "$1") to $restore_point\e[0m\n"
+		    sleep 5
+		    XZ_OPT="-9e --threads=$(nproc)"	tar -xpvJf "$1" -C "$restore_point"
+	    elif [ -f "$1" ] && [[ $(basename "$1") == *.tar.bz2 ]] && [ -d "$restore_point" ]; then
+		    clear
+		    echo -e "\e[91;4mRestoring $(basename "$1") to $restore_point\e[0m\n"
+		    sleep 5
+		    tar -xvpjf "$1" -C "$restore_point"
+	    elif [ -f "$1" ] && [[ $(basename "$1") == *.tar.gz ]] && [ -d "$restore_point" ]; then
+		    clear
+		    echo -e "\e[91;4mRestoring $(basename "$1") to $restore_point\e[0m\n"
+		    sleep 5
+		    tar -xvpzf "$1" -C "$restore_point"
+	    elif [ -f "$1" ] && [[ $(basename "$1") == *.tar ]] && [ -d "$restore_point" ]; then
+		    clear
+		    echo -e "\e[91;4mRestoring $(basename "$1") to $restore_point\e[0m\n"
+		    sleep 5
+		    tar -xvpf "$1" -C "$restore_point"
+	    else
+		    echo -e "restore_sys [filename] [restore_point]:\n[filename] type the name of the archive to be restored (including extension).\n[restore_point] the directory where extracted files will be placed."
+	    fi
+	else
+	    echo -e "restore_sys [filename] [restore_point]:\n[filename] type the name of the archive to be restored (including extension).\n[restore_point] the directory where extracted files will be placed."
+    fi
+else
+	echo "You Must Be Root!!"
+fi
