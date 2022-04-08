@@ -1,16 +1,16 @@
 #!/bin/sh
 
-## Stop Resource Intensive Desktop Services
-systemctl stop avahi-daemon
-systemctl stop avahi-dnsconfd
-systemctl stop bluetooth
-systemctl stop cups
-systemctl stop cups-browsed
-systemctl stop firewalld
-systemctl stop sshd
+# Audio Samplerate Override (i.e. 44100,48000,88200)
+SAMPLERATE=48000
+# Buffer Period Blocksize (i.e 64,128,256)
+BUFFERSIZE=256
 
-## Optionally Stop Networkmanager. (Uncomment to stop service)
-#systemctl stop NetworkManager
+## Stop Resource Intensive Desktop Services
+systemctl stop bluetooth cups cups-browsed firewalld sshd
 
 ## Start DAW Optimized Services
 systemctl start cpupower
+
+## Set Samplerate and Blocksize
+pw-metadata -n settings 0 clock.force-rate ${SAMPLERATE}
+pw-metadata -n settings 0 clock.force-quantum ${BUFFERSIZE}
