@@ -9,10 +9,8 @@ systemctl stop cups-browsed
 systemctl stop firewalld
 systemctl stop sshd
 
-## Optionally Stop Networkmanager. (Uncomment to Enable)
-systemctl stop NetworkManager
+## Optionally Stop Networkmanager. (Uncomment to stop service)
+#systemctl stop NetworkManager
 
 ## Start DAW Optimized Services
 systemctl start cpupower
-systemctl start rtirq
-systemctl start rtirq-resume
