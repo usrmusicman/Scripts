@@ -166,7 +166,7 @@ install_os() {
 
     ## Install GRUB Bootloader
     arch-chroot $MOUNT_DIR grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=${DISTRO_NAME} ${BOOT_DEVICE}
-    sed -i -e "s/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 quiet\"/GRUB_CMDLINE_LINUX_DEFAULT=\"root=LABEL=${DISTRO_NAME} resume=LABEL=${DISTRO_NAME} rootflags=subvol=@ loglevel=3 lsm=landlock,lockdown,yama,apparmor,bpf nvidia-drm.modeset=1 threadirqs\"/" $MOUNT_DIR/etc/default/grub
+    sed -i -e "s/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 quiet\"/GRUB_CMDLINE_LINUX_DEFAULT=\"root=LABEL=${DISTRO_NAME} resume=LABEL=${DISTRO_NAME} rootflags=subvol=@ loglevel=3 lsm=landlock,lockdown,yama,apparmor,bpf nvidia-drm.modeset=1 threadirqs usbcore.autosuspend=-1\"/" $MOUNT_DIR/etc/default/grub
     arch-chroot $MOUNT_DIR grub-mkconfig -o /boot/grub/grub.cfg
 
     ## Set CPUPower Daemon To Performance Governor
