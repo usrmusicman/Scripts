@@ -1,0 +1,36 @@
+#!/bin/sh
+
+# Audio Samplerate Override (i.e. 44100,48000,88200)
+SAMPLERATE=48000
+# Buffer Period Blocksize (i.e 64,128,256)
+BUFFERSIZE=256
+# Path To DAW Binary (i.e. /usr/bin/ardour6 or just the binary name if it is detected by the $PATH enviornment variable. i.e. ardour6)
+DAW_BIN=/usr/bin/ardour6
+
+start_daw() {
+	## Stop Resource Intensive Desktop Services
+	systemctl stop bluetooth cups cups-browsed firewalld sshd
+
+	## Start DAW Optimized Services
+	systemctl start cpupower
+
+	## Set Samplerate and Blocksize
+	pw-metadata -n settings 0 clock.force-rate ${SAMPLERATE}
+	pw-metadata -n settings 0 clock.force-quantum ${BUFFERSIZE}
+}
+
+stop_daw() {
+	## Start Resource Intensive Desktop Services
+	systemctl start bluetooth cups cups-browsed firewalld sshd
+
+	## Stop DAW Optimized Services
+	systemctl stop cpupower
+
+	## Set Samplerate and Blocksize
+	pw-metadata -n settings 0 clock.force-rate 0
+	pw-metadata -n settings 0 clock.force-quantum 0
+}
+
+start_daw
+$DAW_BIN
+stop_daw
