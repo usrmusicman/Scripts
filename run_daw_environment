@@ -8,9 +8,6 @@ BUFFERSIZE=256
 DAW_BIN=/usr/bin/ardour6
 
 start_daw() {
-	## Stop Resource Intensive Desktop Services
-	systemctl stop bluetooth cups cups-browsed firewalld sshd
-
 	## Start DAW Optimized Services
 	systemctl start cpupower
 
@@ -20,9 +17,6 @@ start_daw() {
 }
 
 stop_daw() {
-	## Start Resource Intensive Desktop Services
-	systemctl start bluetooth cups cups-browsed firewalld sshd
-
 	## Stop DAW Optimized Services
 	systemctl stop cpupower
 
