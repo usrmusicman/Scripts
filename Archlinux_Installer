@@ -222,6 +222,8 @@ install_os() {
     arch-chroot $MOUNT_DIR systemctl enable cups-browsed.service
     arch-chroot $MOUNT_DIR systemctl enable fstrim.timer
     arch-chroot $MOUNT_DIR systemctl enable NetworkManager.service
+    arch-chroot $MOUNT_DIR systemctl enable rtirq.service
+    arch-chroot $MOUNT_DIR systemctl enable rtirq-resume.service
     arch-chroot $MOUNT_DIR systemctl enable sddm.service
 
     ## Add user to groups
