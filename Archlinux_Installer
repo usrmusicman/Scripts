@@ -156,11 +156,11 @@ install_os() {
     if [[ "$DETECT_CPU" == "AuthenticAMD" ]]; then
         ## Install AMD CPU Firmware
         arch-chroot $MOUNT_DIR pacman -S --noconfirm amd-ucode
-        efibootmgr --disk ${INSTALL_DEVICE} --part ${BOOT_PART} --create --label $DISTRO_NAME --loader /vmlinuz-linux-zen --unicode "root=LABEL=${DISTRO_NAME} rootfstype=btrfs resume=LABEL=${DISTRO_NAME} rootflags=subvol=@ loglevel=3 lsm=landlock,lockdown,yama,apparmor,bpf mitigations=off usbcore.autosuspend=-1 rw initrd=\amd-ucode.img initrd=\booster-linux-zen.img" --verbose
+        efibootmgr --disk ${INSTALL_DEVICE} --part ${BOOT_PART} --create --label $DISTRO_NAME --loader /vmlinuz-linux-zen --unicode "root=LABEL=${DISTRO_NAME} rootfstype=btrfs resume=LABEL=${DISTRO_NAME} rootflags=subvol=@ loglevel=3 lsm=landlock,lockdown,yama,apparmor,bpf threadirqs usbcore.autosuspend=-1 rw initrd=\amd-ucode.img initrd=\booster-linux-zen.img" --verbose
     elif [[ "$DETECT_CPU" == "GenuineIntel" ]]; then
         ## Install Intel CPU Firmware
         arch-chroot $MOUNT_DIR pacman -S --noconfirm intel-ucode
-        efibootmgr --disk ${INSTALL_DEVICE} --part ${BOOT_PART} --create --label $DISTRO_NAME --loader /vmlinuz-linux-zen --unicode "root=LABEL=${DISTRO_NAME} rootfstype=btrfs resume=LABEL=${DISTRO_NAME} rootflags=subvol=@ loglevel=3 lsm=landlock,lockdown,yama,apparmor,bpf mitigations=off usbcore.autosuspend=-1 rw initrd=\intel-ucode.img initrd=\booster-linux-zen.img" --verbose
+        efibootmgr --disk ${INSTALL_DEVICE} --part ${BOOT_PART} --create --label $DISTRO_NAME --loader /vmlinuz-linux-zen --unicode "root=LABEL=${DISTRO_NAME} rootfstype=btrfs resume=LABEL=${DISTRO_NAME} rootflags=subvol=@ loglevel=3 lsm=landlock,lockdown,yama,apparmor,bpf threadirqs usbcore.autosuspend=-1 rw initrd=\intel-ucode.img initrd=\booster-linux-zen.img" --verbose
     fi
 
     ## Install Gaming Related Packages
