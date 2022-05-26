@@ -5,12 +5,10 @@
 ## Distribution Name, ENSURE NO SPACES IN NAME
 DISTRO_NAME="Archlinux"
 
-# Which device to install the operating system on. Use 'blkid' command to get device name. (i.e. /dev/sda)
+# Which partition is used for the bootloader. Use 'blkid' command to get device name. (i.e. /dev/sda1)
+BOOT_DEVICE=""
+# Which device to install the operating system on. Use 'blkid' command to get device name. (i.e. /dev/sda2)
 INSTALL_DEVICE=""
-# Which partition is used for the bootloader. Use 'blkid' command to get device name. (i.e. /dev/sdaX use 1,2,3,4 in place for X etc...)
-BOOT_PART=""
-# Which partition is used for the OS. Use 'blkid' command to get device name. (i.e. /dev/sdaX use 1,2,3,4 in place for X etc...)
-OS_PART=""
 # Mountpoint for install. (i.e. /mnt)
 MOUNT_DIR=""
 
@@ -40,10 +38,10 @@ DETECT_GPU=`lspci | grep VGA | cut -d ":" -f 3 | cut -d " " -f 2`
 #<-- OS Install List -->
 
 ## Install KDE Plasma desktop
-INSTALL_OS="alsa-utils apparmor appmenu-gtk-module archlinux-appstream-data ark audiocd-kio base base-devel bash-completion bluez bluez-hid2hci bluez-plugins bluez-tools booster btrfs-progs cdparanoia cdrdao cdrtools chromium clang cpupower cups cups-filters cups-pdf darktable dbus-broker dolphin dolphin-plugins dvd+rw-tools e2fsprogs earlyoom easy-rsa ebook-tools efibootmgr elisa espeak-ng exfatprogs extra-cmake-modules ffmpegthumbs firewalld flatpak fwupd fwupd-efi git gnu-free-fonts gst-libav gst-plugin-msdk gst-plugin-opencv gst-plugin-pipewire gst-plugin-va gst-plugins-bad gst-plugins-bad-libs gst-plugins-base gst-plugins-base-libs gst-plugins-espeak gst-plugins-good gst-plugins-ugly gstreamer-vaapi gst-rtsp-server gwenview handbrake hunspell hunspell-en_au hunspell-en_ca hunspell-en_gb hunspell-en_us k3b kaccounts-providers kamera kate kcalc kde-cli-tools kdeconnect kdegraphics-mobipocket kdegraphics-thumbnailers kdialog kseexpr kf5 kf5-aids kid3 kio-extras kio-gdrive kleopatra kmymoney konsole konversation krename krita krita-plugin-gmic libappimage libdbusmenu-gtk2 libdbusmenu-gtk3 libdbusmenu-qt5 libdbusmenu-qt6 libdvdcss libdvdnav libdvdread libmypaint libmythes libotr libpipewire02 linux-firmware linux-zen linux-zen-headers lrzip lsb-release lzop man-db man-pages markdownpart multilib-devel mythes-en net-tools networkmanager networkmanager-openvpn noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ntfs-3g okteta okular openssh opentimelineio orca p7zip packagekit-qt5 partitionmanager phonon-qt5-gstreamer phonon-qt5-vlc pipewire pipewire-alsa pipewire-jack pipewire-pulse pipewire-v4l2 pipewire-x11-bell pipewire-zeroconf plasma poppler-data poppler-qt5 print-manager python-lsp-server qbittorrent qpwgraph qt5-imageformats qt5-multimedia qt5-wayland qt6-wayland realtime-privileges rtirq rust shotcut skanpage soundkonverter spectacle speech-dispatcher sshfs subversion sudo svgpart swh-plugins transcode ttf-dejavu ttf-liberation unace unarchiver unrar unzip usbutils vcdimager vdpauinfo vim vim-runtime vlc wget wireless-regdb wireplumber xdg-desktop-portal xdg-user-dirs-gtk xf86-input-libinput xsettingsd youtube-dl zip zram-generator"
+INSTALL_OS="alsa-utils apparmor appmenu-gtk-module archlinux-appstream-data ark audiocd-kio base base-devel bash-completion bluez bluez-hid2hci bluez-plugins bluez-tools booster breeze-grub btrfs-progs cdparanoia cdrdao cdrtools chromium clang cpupower cups cups-filters cups-pdf darktable dbus-broker dolphin dolphin-plugins dvd+rw-tools e2fsprogs earlyoom easy-rsa ebook-tools efibootmgr elisa espeak-ng exfatprogs extra-cmake-modules ffmpegthumbs firewalld flatpak fwupd fwupd-efi git gnu-free-fonts grub grub-btrfs grub-customizer gst-libav gst-plugin-msdk gst-plugin-opencv gst-plugin-pipewire gst-plugin-va gst-plugins-bad gst-plugins-bad-libs gst-plugins-base gst-plugins-base-libs gst-plugins-espeak gst-plugins-good gst-plugins-ugly gstreamer-vaapi gst-rtsp-server gwenview handbrake hunspell hunspell-en_au hunspell-en_ca hunspell-en_gb hunspell-en_us k3b kaccounts-providers kamera kate kcalc kde-cli-tools kdeconnect kdegraphics-mobipocket kdegraphics-thumbnailers kdialog kseexpr kf5 kf5-aids kid3 kio-extras kio-gdrive kleopatra kmymoney konsole konversation krename krita krita-plugin-gmic libappimage libdbusmenu-gtk2 libdbusmenu-gtk3 libdbusmenu-qt5 libdbusmenu-qt6 libdvdcss libdvdnav libdvdread libmypaint libmythes libotr libpipewire02 libreoffice-fresh linux-firmware linux-zen linux-zen-headers lrzip lsb-release lzop man-db man-pages markdownpart mtools multilib-devel mythes-en net-tools networkmanager networkmanager-openvpn noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ntfs-3g okteta okular openssh opentimelineio orca os-prober p7zip packagekit-qt5 partitionmanager phonon-qt5-gstreamer phonon-qt5-vlc pipewire pipewire-alsa pipewire-jack pipewire-pulse pipewire-v4l2 pipewire-x11-bell pipewire-zeroconf plasma poppler-data poppler-qt5 print-manager python-lsp-server qbittorrent qpwgraph qt5-imageformats qt5-multimedia qt5-wayland qt6-wayland realtime-privileges rtirq rust shotcut skanpage snapper soundkonverter spectacle speech-dispatcher sshfs subversion sudo svgpart swh-plugins transcode ttf-dejavu ttf-liberation unace unarchiver unrar unzip usbutils vcdimager vdpauinfo vim vim-runtime vlc wget wireless-regdb wireplumber xdg-desktop-portal xdg-user-dirs-gtk xf86-input-libinput xsettingsd youtube-dl zip zram-generator"
 
 ## Gaming Related Packages
-INSTALL_GAMING="gamemode gamescope lib32-gamemode lib32-gst-plugins-base lib32-gst-plugins-good lib32-libxslt lib32-pipewire-jack lib32-pipewire-v4l2 libxslt steam steam-native-runtime wine winetricks xorg-xgamma"
+INSTALL_GAMING="gamemode gamescope lib32-gamemode lib32-gst-plugins-base lib32-gst-plugins-good lib32-libxslt lib32-pipewire-jack lib32-pipewire-v4l2 libxslt lutris steam steam-native-runtime wine winetricks xorg-xgamma"
 
 #<-- GPU Driver Install List -->
 
@@ -61,10 +59,10 @@ NVIDIA_DRV="lib32-libva-vdpau-driver lib32-mesa-vdpau lib32-nvidia-cg-toolkit li
 ##<-- System Install Options -->
 install_os() {
     ## Label BTRFS root partition
-    btrfs filesystem label ${INSTALL_DEVICE}${OS_PART} "${DISTRO_NAME}"
+    btrfs filesystem label ${INSTALL_DEVICE} "${DISTRO_NAME}"
 
     ## Mount root filesystem
-    mount -t btrfs ${INSTALL_DEVICE}${OS_PART} $MOUNT_DIR
+    mount -t btrfs ${INSTALL_DEVICE} $MOUNT_DIR
 
     ## Remove BTRFS subvolumes if they exist
     if [[ -d "$MOUNT_DIR/@" ]]; then
@@ -83,6 +81,7 @@ install_os() {
     ## Create BTRFS subvolumes
     btrfs subvolume create $MOUNT_DIR/@
     btrfs subvolume create $MOUNT_DIR/@cache
+    btrfs subvolume create $MOUNT_DIR/@flatpak
     btrfs subvolume create $MOUNT_DIR/@home
     btrfs subvolume create $MOUNT_DIR/@log
     btrfs subvolume create $MOUNT_DIR/@snapshots
@@ -92,22 +91,23 @@ install_os() {
     echo "Created Subvolumes..." && sleep 5
 
     ## Mount root subvolume (Please use an SSD as this works best for BTRFS)
-    mount -t btrfs -o noatime,compress=zstd:3,subvol=@ ${INSTALL_DEVICE}${OS_PART} $MOUNT_DIR
+    mount -t btrfs -o noatime,compress=zstd:3,subvol=@ ${INSTALL_DEVICE} $MOUNT_DIR
 
     ## Make directories for other subvolumes
-    mkdir -p $MOUNT_DIR/{.snapshots,home,var/cache,var/log}
+    mkdir -p $MOUNT_DIR/{.snapshots,home,var/cache,var/lib/flatpak,var/log}
 
     ## Mount other subvolumes (Please use an SSD as this works best for BTRFS)
-    mount -t btrfs -o noatime,compress=zstd:3,subvol=@cache ${INSTALL_DEVICE}${OS_PART} $MOUNT_DIR/var/cache
-    mount -t btrfs -o noatime,compress=zstd:3,subvol=@home ${INSTALL_DEVICE}${OS_PART} $MOUNT_DIR/home
-    mount -t btrfs -o noatime,compress=zstd:3,subvol=@log ${INSTALL_DEVICE}${OS_PART} $MOUNT_DIR/var/log
-    mount -t btrfs -o noatime,compress=zstd:3,subvol=@snapshots ${INSTALL_DEVICE}${OS_PART} $MOUNT_DIR/.snapshots
+    mount -t btrfs -o noatime,compress=zstd:3,subvol=@cache ${INSTALL_DEVICE} $MOUNT_DIR/var/cache
+    mount -t btrfs -o noatime,compress=zstd:3,subvol=@home ${INSTALL_DEVICE} $MOUNT_DIR/home
+    mount -t btrfs -o noatime,compress=zstd:3,subvol=@flatpak ${INSTALL_DEVICE} $MOUNT_DIR/var/lib/flatpak
+    mount -t btrfs -o noatime,compress=zstd:3,subvol=@log ${INSTALL_DEVICE} $MOUNT_DIR/var/log
+    mount -t btrfs -o noatime,compress=zstd:3,subvol=@snapshots ${INSTALL_DEVICE} $MOUNT_DIR/.snapshots
 
     ## Make efi directory
-    mkdir -p $MOUNT_DIR/boot
+    mkdir -p $MOUNT_DIR/boot/efi
 
     ## Mount the efi partition
-    mount ${INSTALL_DEVICE}${BOOT_PART} $MOUNT_DIR/boot
+    mount ${BOOT_DEVICE} $MOUNT_DIR/boot/efi
     echo "Mounted Partitions and Subvolumes..." && sleep 5
 
     ## Initialize pacman-keyring (host)
@@ -156,12 +156,18 @@ install_os() {
     if [[ "$DETECT_CPU" == "AuthenticAMD" ]]; then
         ## Install AMD CPU Firmware
         arch-chroot $MOUNT_DIR pacman -S --noconfirm amd-ucode
-        efibootmgr --disk ${INSTALL_DEVICE} --part ${BOOT_PART} --create --label "$DISTRO_NAME" --loader /vmlinuz-linux-zen --unicode "root=LABEL=${DISTRO_NAME} rootfstype=btrfs resume=LABEL=${DISTRO_NAME} rootflags=subvol=@ loglevel=3 lsm=landlock,lockdown,yama,apparmor,bpf nvidia-drm.modeset=1 threadirqs usbcore.autosuspend=-1 rw initrd=\amd-ucode.img initrd=\booster-linux-zen.img" --verbose
     elif [[ "$DETECT_CPU" == "GenuineIntel" ]]; then
         ## Install Intel CPU Firmware
         arch-chroot $MOUNT_DIR pacman -S --noconfirm intel-ucode
-        efibootmgr --disk ${INSTALL_DEVICE} --part ${BOOT_PART} --create --label "$DISTRO_NAME" --loader /vmlinuz-linux-zen --unicode "root=LABEL=${DISTRO_NAME} rootfstype=btrfs resume=LABEL=${DISTRO_NAME} rootflags=subvol=@ loglevel=3 lsm=landlock,lockdown,yama,apparmor,bpf nvidia-drm.modeset=1 threadirqs usbcore.autosuspend=-1 rw initrd=\intel-ucode.img initrd=\booster-linux-zen.img" --verbose
     fi
+    ## Install GRUB
+    arch-chroot $MOUNT_DIR grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id="$DISTRO_NAME" $BOOT_DEVICE
+    ## Configure GRUB
+    sed -i -e "s/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 quiet\"/GRUB_CMDLINE_LINUX_DEFAULT=\"root=LABEL=${DISTRO_NAME} rootfstype=btrfs resume=LABEL=${DISTRO_NAME} rootflags=subvol=@ loglevel=3 lsm=landlock,lockdown,yama,apparmor,bpf threadirqs usbcore.autosuspend=-1\"/" $MOUNT_DIR/etc/default/grub
+    sed -i -e "s/GRUB_GFXMODE=auto/GRUB_GFXMODE=1920x1080x32/" $MOUNT_DIR/etc/default/grub
+    sed -i -e "s|#GRUB_THEME=\"/path/to/gfxtheme\"|GRUB_THEME=/usr/share/grub/themes/breeze/theme.txt|" $MOUNT_DIR/etc/default/grub
+    ## Initialize GRUB
+    sudo grub-mkconfig -o $MOUNT_DIR/boot/grub/grub.cfg
 
     ## Install Gaming Related Packages
     if [[ "$GAMING" == "true" ]]; then
@@ -243,10 +249,10 @@ install_os() {
 ##<-- Partition Drives -->
 partition_system() {
     ## Create A BTRFS root partition
-    mkfs.btrfs -f ${INSTALL_DEVICE}${OS_PART}
+    mkfs.btrfs -f ${INSTALL_DEVICE}
 
     ## Create A UEFI Boot Partition
-    mkfs.vfat -F32 ${INSTALL_DEVICE}${BOOT_PART}
+    mkfs.vfat -F32 ${BOOT_DEVICE}
     echo "Formatted Partitions..." && sleep 5
 }
 
