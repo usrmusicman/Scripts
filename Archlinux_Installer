@@ -38,10 +38,10 @@ DETECT_GPU=`lspci | grep VGA | cut -d ":" -f 3 | cut -d " " -f 2`
 #<-- OS Install List -->
 
 ## Install KDE Plasma desktop
-INSTALL_OS="alsa-utils apparmor appmenu-gtk-module archlinux-appstream-data ark audiocd-kio base base-devel bash-completion bluez bluez-hid2hci bluez-plugins bluez-tools breeze-grub btrfs-progs cdparanoia cdrdao cdrtools chromium clang cpupower cups cups-filters cups-pdf darktable dbus-broker dolphin dolphin-plugins dvd+rw-tools e2fsprogs earlyoom easy-rsa ebook-tools efibootmgr elisa espeak-ng exfatprogs extra-cmake-modules ffmpegthumbs firewalld flatpak fwupd fwupd-efi git gnu-free-fonts grub grub-btrfs grub-customizer gst-libav gst-plugin-msdk gst-plugin-opencv gst-plugin-pipewire gst-plugin-va gst-plugins-bad gst-plugins-bad-libs gst-plugins-base gst-plugins-base-libs gst-plugins-espeak gst-plugins-good gst-plugins-ugly gstreamer-vaapi gst-rtsp-server gwenview handbrake hunspell hunspell-en_au hunspell-en_ca hunspell-en_gb hunspell-en_us k3b kaccounts-providers kamera kate kcalc kde-cli-tools kdeconnect kdegraphics-mobipocket kdegraphics-thumbnailers kdialog kseexpr kf5 kf5-aids kid3 kio-extras kio-gdrive kleopatra kmymoney konsole konversation krename krita krita-plugin-gmic libappimage libdbusmenu-gtk2 libdbusmenu-gtk3 libdbusmenu-qt5 libdbusmenu-qt6 libdvdcss libdvdnav libdvdread libmypaint libmythes libotr libpipewire02 libreoffice-fresh linux-firmware linux-zen linux-zen-headers lrzip lsb-release lzop man-db man-pages markdownpart mkinitcpio mkinitcpio-utils mtools multilib-devel mythes-en net-tools networkmanager networkmanager-openvpn noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ntfs-3g okteta okular openssh opentimelineio orca os-prober p7zip packagekit-qt5 partitionmanager phonon-qt5-gstreamer phonon-qt5-vlc pipewire pipewire-alsa pipewire-jack pipewire-pulse pipewire-v4l2 pipewire-x11-bell pipewire-zeroconf plasma poppler-data poppler-qt5 print-manager python-lsp-server qbittorrent qpwgraph qt5-imageformats qt5-multimedia qt5-wayland qt6-wayland realtime-privileges rtirq rust shotcut skanpage snapper soundkonverter spectacle speech-dispatcher sshfs subversion sudo svgpart swh-plugins transcode ttf-dejavu ttf-liberation unace unarchiver unrar unzip usbutils vcdimager vdpauinfo vim vim-runtime vlc wget wireless-regdb wireplumber xdg-desktop-portal xdg-user-dirs-gtk xf86-input-libinput xsettingsd youtube-dl zip zram-generator"
+INSTALL_OS="alsa-utils apparmor appmenu-gtk-module archlinux-appstream-data ark audiocd-kio base base-devel bash-completion bluez bluez-hid2hci bluez-plugins bluez-tools btrfs-progs cdparanoia cdrdao cdrtools chromium clang cups cups-filters cups-pdf dolphin dolphin-plugins dvd+rw-tools e2fsprogs easy-rsa ebook-tools elisa espeak-ng exfatprogs ffmpegthumbs firewalld flatpak fwupd fwupd-efi git gnu-free-fonts grub grub-btrfs gst-libav gst-plugin-msdk gst-plugin-opencv gst-plugin-pipewire gst-plugin-va gst-plugins-bad gst-plugins-bad-libs gst-plugins-base gst-plugins-base-libs gst-plugins-espeak gst-plugins-good gst-plugins-ugly gstreamer-vaapi gst-rtsp-server gwenview handbrake hunspell hunspell-en_au hunspell-en_ca hunspell-en_gb hunspell-en_us k3b kaccounts-providers kamera kate kcalc kde-cli-tools kdeconnect kdegraphics-mobipocket kdegraphics-thumbnailers kdialog kseexpr kf5 kf5-aids kid3 kio-extras kio-gdrive konsole konversation krename krita krita-plugin-gmic libappimage libdbusmenu-gtk2 libdbusmenu-gtk3 libdbusmenu-qt5 libdbusmenu-qt6 libdvdcss libdvdnav libdvdread libmypaint libmythes libpipewire02 libreoffice-fresh linux linux-firmware linux-headers lrzip lsb-release lzop man-db man-pages markdownpart mkinitcpio mkinitcpio-utils mtools multilib-devel mythes-en net-tools networkmanager networkmanager-openvpn noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ntfs-3g okteta okular openssh opentimelineio orca os-prober p7zip packagekit-qt5 partitionmanager phonon-qt5-gstreamer phonon-qt5-vlc pipewire pipewire-alsa pipewire-jack pipewire-pulse pipewire-v4l2 pipewire-x11-bell pipewire-zeroconf plasma poppler-data poppler-qt5 print-manager python-lsp-server qbittorrent qpwgraph qt5-imageformats qt5-multimedia qt5-wayland qt6-wayland realtime-privileges rtirq rust skanpage soundkonverter spectacle speech-dispatcher sshfs subversion sudo svgpart transcode ttf-dejavu ttf-liberation unace unarchiver unrar unzip usbutils vcdimager vdpauinfo vim vim-runtime vlc wget wireless-regdb wireplumber xdg-desktop-portal xdg-user-dirs-gtk xf86-input-libinput xsettingsd youtube-dl zip zram-generator"
 
 ## Gaming Related Packages
-INSTALL_GAMING="dosbox gamemode gamescope lib32-gamemode lib32-gst-plugins-base lib32-gst-plugins-good lib32-libxslt lib32-pipewire-jack lib32-pipewire-v4l2 libxslt lutris steam steam-native-runtime wine winetricks xorg-xgamma"
+INSTALL_GAMING="dosbox gamemode gamescope lib32-gamemode lib32-gst-plugins-base lib32-gst-plugins-good lib32-libxslt lib32-pipewire-jack lib32-pipewire-v4l2 libxslt steam steam-native-runtime wine winetricks xorg-xgamma"
 
 #<-- GPU Driver Install List -->
 
@@ -64,44 +64,63 @@ install_os() {
     ## Mount root filesystem
     mount -t btrfs ${INSTALL_DEVICE} $MOUNT_DIR
 
-    ## Remove BTRFS subvolumes if they exist
+    ## Remove BTRFS subvolumes if they exist (Using the Opensuse subvolume scheme)
     if [[ -d "$MOUNT_DIR/@" ]]; then
         rm -rf $MOUNT_DIR/@
     fi
-    if [[ -d "$MOUNT_DIR/@cache" ]]; then
-        rm -rf $MOUNT_DIR/@cache
+    if [[ -d "$MOUNT_DIR/@opt" ]]; then
+        rm -rf $MOUNT_DIR/@opt
     fi
-    if [[ -d "$MOUNT_DIR/@log" ]]; then
-        rm -rf $MOUNT_DIR/@log
+    if [[ -d "$MOUNT_DIR/@root" ]]; then
+        rm -rf $MOUNT_DIR/@root
     fi
     if [[ -d "$MOUNT_DIR/@snapshots" ]]; then
         rm -rf $MOUNT_DIR/@snapshots
     fi
+    if [[ -d "$MOUNT_DIR/@srv" ]]; then
+        rm -rf $MOUNT_DIR/@srv
+    fi
+    if [[ -d "$MOUNT_DIR/@tmp" ]]; then
+        rm -rf $MOUNT_DIR/@tmp
+    fi
+    if [[ -d "$MOUNT_DIR/@usrlocal" ]]; then
+        rm -rf $MOUNT_DIR/@usrlocal
+    fi
+    if [[ -d "$MOUNT_DIR/@var" ]]; then
+        rm -rf $MOUNT_DIR/@var
+    fi
 
-    ## Create BTRFS subvolumes
+    ## Create BTRFS subvolumes (Using the Opensuse subvolume scheme)
     btrfs subvolume create $MOUNT_DIR/@
-    btrfs subvolume create $MOUNT_DIR/@cache
-    btrfs subvolume create $MOUNT_DIR/@flatpak
     btrfs subvolume create $MOUNT_DIR/@home
-    btrfs subvolume create $MOUNT_DIR/@log
+    btrfs subvolume create $MOUNT_DIR/@opt
+    btrfs subvolume create $MOUNT_DIR/@root
     btrfs subvolume create $MOUNT_DIR/@snapshots
+    btrfs subvolume create $MOUNT_DIR/@srv
+    btrfs subvolume create $MOUNT_DIR/@tmp
+    btrfs subvolume create $MOUNT_DIR/@usrlocal
+    btrfs subvolume create $MOUNT_DIR/@var
+
 
     ## Unmount root filesystem
     umount $MOUNT_DIR
     echo "Created Subvolumes..." && sleep 5
 
-    ## Mount root subvolume (Please use an SSD as this works best for BTRFS)
+    ## Mount root subvolume
     mount -t btrfs -o noatime,compress=zstd:3,subvol=@ ${INSTALL_DEVICE} $MOUNT_DIR
 
     ## Make directories for other subvolumes
-    mkdir -p $MOUNT_DIR/{.snapshots,home,var/cache,var/lib/flatpak,var/log}
+    mkdir -p $MOUNT_DIR/{.snapshots,home,opt,root,srv,tmp,usr/local,var}
 
-    ## Mount other subvolumes (Please use an SSD as this works best for BTRFS)
-    mount -t btrfs -o noatime,compress=zstd:3,subvol=@cache ${INSTALL_DEVICE} $MOUNT_DIR/var/cache
+    ## Mount other subvolumes
     mount -t btrfs -o noatime,compress=zstd:3,subvol=@home ${INSTALL_DEVICE} $MOUNT_DIR/home
-    mount -t btrfs -o noatime,compress=zstd:3,subvol=@flatpak ${INSTALL_DEVICE} $MOUNT_DIR/var/lib/flatpak
-    mount -t btrfs -o noatime,compress=zstd:3,subvol=@log ${INSTALL_DEVICE} $MOUNT_DIR/var/log
+    mount -t btrfs -o noatime,compress=zstd:3,subvol=@opt ${INSTALL_DEVICE} $MOUNT_DIR/opt
+    mount -t btrfs -o noatime,compress=zstd:3,subvol=@root ${INSTALL_DEVICE} $MOUNT_DIR/root
     mount -t btrfs -o noatime,compress=zstd:3,subvol=@snapshots ${INSTALL_DEVICE} $MOUNT_DIR/.snapshots
+    mount -t btrfs -o noatime,compress=zstd:3,subvol=@srv ${INSTALL_DEVICE} $MOUNT_DIR/srv
+    mount -t btrfs -o noatime,compress=zstd:3,subvol=@tmp ${INSTALL_DEVICE} $MOUNT_DIR/tmp
+    mount -t btrfs -o noatime,compress=zstd:3,subvol=@usrlocal ${INSTALL_DEVICE} $MOUNT_DIR/usr/local
+    mount -t btrfs -o noatime,compress=zstd:3,subvol=@var ${INSTALL_DEVICE} $MOUNT_DIR/var
 
     ## Make efi directory
     mkdir -p $MOUNT_DIR/boot/efi
@@ -124,11 +143,6 @@ install_os() {
 
     ## Generate filesystem mounts
     genfstab -U $MOUNT_DIR > $MOUNT_DIR/etc/fstab
-
-    ## Install booster configuration
-    echo "compression: zstd" > $MOUNT_DIR/etc/booster.yaml
-    echo "strip: true" >> $MOUNT_DIR/etc/booster.yaml
-    echo "universal: false" >> $MOUNT_DIR/etc/booster.yaml
 
     ## Install the display drivers
     if [[ "$DETECT_GPU" == "Advanced" ]]; then
@@ -161,9 +175,9 @@ install_os() {
     ## Install GRUB
     arch-chroot $MOUNT_DIR grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id="$DISTRO_NAME" $BOOT_DEVICE
     ## Configure GRUB
+    sed -i -e "s/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/" $MOUNT_DIR/etc/default/grub
     sed -i -e "s/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 quiet\"/GRUB_CMDLINE_LINUX_DEFAULT=\"root=LABEL=${DISTRO_NAME} rootfstype=btrfs resume=LABEL=${DISTRO_NAME} rootflags=subvol=@ loglevel=3 lsm=landlock,lockdown,yama,apparmor,bpf threadirqs usbcore.autosuspend=-1\"/" $MOUNT_DIR/etc/default/grub
-    sed -i -e "s/GRUB_GFXMODE=auto/GRUB_GFXMODE=1920x1080x32/" $MOUNT_DIR/etc/default/grub
-    sed -i -e "s|#GRUB_THEME=\"/path/to/gfxtheme\"|GRUB_THEME=/usr/share/grub/themes/breeze/theme.txt|" $MOUNT_DIR/etc/default/grub
+    sed -i -e "s/#GRUB_DISABLE_SUBMENU=y/GRUB_DISABLE_SUBMENU=y/" $MOUNT_DIR/etc/default/grub
     ## Initialize GRUB
     arch-chroot $MOUNT_DIR grub-mkconfig -o $MOUNT_DIR/boot/grub/grub.cfg
 
@@ -179,11 +193,6 @@ install_os() {
     echo "compression-algorithm = zstd" >> $MOUNT_DIR/etc/systemd/zram-generator.conf
     echo "options = discard" >> $MOUNT_DIR/etc/systemd/zram-generator.conf
     echo "swap-priority=32767" >> $MOUNT_DIR/etc/systemd/zram-generator.conf
-
-    ## Set Disk I/O Udev Rules
-    echo "ACTION==\"add|change\", KERNEL==\"nvme[0-9]n[0-9]\", ATTR{queue/scheduler}=\"none\"" > $MOUNT_DIR/etc/udev/rules.d/60-ioschedulers.rules
-    echo "ACTION==\"add|change\", KERNEL==\"sd[a-z]*|mmcblk[0-9]*\", ATTR{queue/rotational}==\"0\", ATTR{queue/scheduler}=\"mq-deadline\"" >> $MOUNT_DIR/etc/udev/rules.d/60-ioschedulers.rules
-    echo "ACTION==\"add|change\", KERNEL==\"sd[a-z]*\", ATTR{queue/rotational}==\"1\", ATTR{queue/scheduler}=\"bfq\"" >> $MOUNT_DIR/etc/udev/rules.d/60-ioschedulers.rules
 
     ## Set hostname
     echo "$HOSTNAME" > $MOUNT_DIR/etc/hostname
@@ -213,19 +222,13 @@ install_os() {
     ## Enable the wheel group root privileges
     sed -i -e 's/# %wheel ALL=(ALL:ALL) ALL/%wheel ALL=(ALL:ALL) ALL/' $MOUNT_DIR/etc/sudoers
 
-    ## Set CPU governor to performance
-    sed -i -e "s/#governor='ondemand'/governor='performance'/" $MOUNT_DIR/etc/default/cpupower 
-
     ## Enable Desktop services
     arch-chroot $MOUNT_DIR systemctl enable apparmor.service
     arch-chroot $MOUNT_DIR systemctl enable avahi-daemon.service
     arch-chroot $MOUNT_DIR systemctl enable avahi-dnsconfd.service
     arch-chroot $MOUNT_DIR systemctl enable bluetooth.service
-    arch-chroot $MOUNT_DIR systemctl enable cpupower.service
     arch-chroot $MOUNT_DIR systemctl enable cups.service
     arch-chroot $MOUNT_DIR systemctl enable cups-browsed.service
-    arch-chroot $MOUNT_DIR systemctl enable dbus-broker.service
-    arch-chroot $MOUNT_DIR systemctl enable earlyoom.service
     arch-chroot $MOUNT_DIR systemctl enable fstrim.timer
     arch-chroot $MOUNT_DIR systemctl enable NetworkManager.service
     arch-chroot $MOUNT_DIR systemctl enable rtirq.service
