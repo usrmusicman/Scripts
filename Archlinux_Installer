@@ -38,7 +38,7 @@ DETECT_GPU=`lspci | grep VGA | cut -d ":" -f 3 | cut -d " " -f 2`
 #<-- OS Install List -->
 
 ## Install KDE Plasma desktop
-INSTALL_OS="alsa-utils apparmor appmenu-gtk-module archlinux-appstream-data ark audiocd-kio base base-devel bash-completion bluez bluez-hid2hci bluez-plugins bluez-tools btrfs-progs cdparanoia cdrdao cdrtools chromium clang cups cups-filters cups-pdf dolphin dolphin-plugins dvd+rw-tools e2fsprogs easy-rsa ebook-tools elisa espeak-ng exfatprogs ffmpegthumbs firewalld flatpak fwupd fwupd-efi git gnu-free-fonts grub grub-btrfs gst-libav gst-plugin-msdk gst-plugin-opencv gst-plugin-pipewire gst-plugin-va gst-plugins-bad gst-plugins-bad-libs gst-plugins-base gst-plugins-base-libs gst-plugins-espeak gst-plugins-good gst-plugins-ugly gstreamer-vaapi gst-rtsp-server gwenview handbrake hunspell hunspell-en_au hunspell-en_ca hunspell-en_gb hunspell-en_us k3b kaccounts-providers kamera kate kcalc kde-cli-tools kdeconnect kdegraphics-mobipocket kdegraphics-thumbnailers kdialog kseexpr kf5 kf5-aids kid3 kio-extras kio-gdrive konsole konversation krename krita krita-plugin-gmic libappimage libdbusmenu-gtk2 libdbusmenu-gtk3 libdbusmenu-qt5 libdbusmenu-qt6 libdvdcss libdvdnav libdvdread libmypaint libmythes libpipewire02 libreoffice-fresh linux linux-firmware linux-headers lrzip lsb-release lzop man-db man-pages markdownpart mkinitcpio mkinitcpio-utils mtools multilib-devel mythes-en net-tools networkmanager networkmanager-openvpn noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ntfs-3g okteta okular openssh opentimelineio orca os-prober p7zip packagekit-qt5 partitionmanager phonon-qt5-gstreamer phonon-qt5-vlc pipewire pipewire-alsa pipewire-jack pipewire-pulse pipewire-v4l2 pipewire-x11-bell pipewire-zeroconf plasma poppler-data poppler-qt5 print-manager python-lsp-server qbittorrent qpwgraph qt5-imageformats qt5-multimedia qt5-wayland qt6-wayland realtime-privileges rtirq rust skanpage soundkonverter spectacle speech-dispatcher sshfs subversion sudo svgpart transcode ttf-dejavu ttf-liberation unace unarchiver unrar unzip usbutils vcdimager vdpauinfo vim vim-runtime vlc wget wireless-regdb wireplumber xdg-desktop-portal xdg-user-dirs-gtk xf86-input-libinput xsettingsd youtube-dl zip zram-generator"
+INSTALL_OS="alsa-utils apparmor appmenu-gtk-module archlinux-appstream-data ark audiocd-kio base base-devel bash-completion bluez bluez-hid2hci bluez-plugins bluez-tools btrfs-progs cdparanoia cdrdao cdrtools chromium clang cups cups-filters cups-pdf dolphin dolphin-plugins dvd+rw-tools e2fsprogs easy-rsa ebook-tools efibootmgr elisa espeak-ng exfatprogs ffmpegthumbs firewalld flatpak fwupd fwupd-efi git gnu-free-fonts grub grub-btrfs gst-libav gst-plugin-msdk gst-plugin-opencv gst-plugin-pipewire gst-plugin-va gst-plugins-bad gst-plugins-bad-libs gst-plugins-base gst-plugins-base-libs gst-plugins-espeak gst-plugins-good gst-plugins-ugly gstreamer-vaapi gst-rtsp-server gwenview handbrake hunspell hunspell-en_au hunspell-en_ca hunspell-en_gb hunspell-en_us k3b kaccounts-providers kamera kate kcalc kde-cli-tools kdeconnect kdegraphics-mobipocket kdegraphics-thumbnailers kdialog kseexpr kf5 kf5-aids kid3 kio-extras kio-gdrive konsole konversation krename krita krita-plugin-gmic libappimage libdbusmenu-gtk2 libdbusmenu-gtk3 libdbusmenu-qt5 libdbusmenu-qt6 libdvdcss libdvdnav libdvdread libmypaint libmythes libpipewire02 libreoffice-fresh linux-firmware linux-zen linux-zen-headers lrzip lsb-release lzop man-db man-pages markdownpart mkinitcpio mkinitcpio-utils mtools multilib-devel mythes-en net-tools networkmanager networkmanager-openvpn noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ntfs-3g okteta okular openssh opentimelineio orca os-prober p7zip packagekit-qt5 partitionmanager phonon-qt5-gstreamer phonon-qt5-vlc pipewire pipewire-alsa pipewire-jack pipewire-pulse pipewire-v4l2 pipewire-x11-bell pipewire-zeroconf plasma poppler-data poppler-qt5 print-manager python-lsp-server qbittorrent qpwgraph qt5-imageformats qt5-multimedia qt5-wayland qt6-wayland realtime-privileges rtirq rust skanpage soundkonverter spectacle speech-dispatcher sshfs subversion sudo svgpart transcode ttf-dejavu ttf-liberation unace unarchiver unrar unzip usbutils vcdimager vdpauinfo vim vim-runtime vlc wget wireless-regdb wireplumber xdg-desktop-portal xdg-user-dirs-gtk xf86-input-libinput xsettingsd youtube-dl zip zram-generator"
 
 ## Gaming Related Packages
 INSTALL_GAMING="dosbox gamemode gamescope lib32-gamemode lib32-gst-plugins-base lib32-gst-plugins-good lib32-libxslt lib32-pipewire-jack lib32-pipewire-v4l2 libxslt steam steam-native-runtime wine winetricks xorg-xgamma"
@@ -100,7 +100,6 @@ install_os() {
     btrfs subvolume create $MOUNT_DIR/@tmp
     btrfs subvolume create $MOUNT_DIR/@usrlocal
     btrfs subvolume create $MOUNT_DIR/@var
-
 
     ## Unmount root filesystem
     umount $MOUNT_DIR
@@ -179,7 +178,7 @@ install_os() {
     sed -i -e "s/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 quiet\"/GRUB_CMDLINE_LINUX_DEFAULT=\"root=LABEL=${DISTRO_NAME} rootfstype=btrfs resume=LABEL=${DISTRO_NAME} rootflags=subvol=@ loglevel=3 lsm=landlock,lockdown,yama,apparmor,bpf threadirqs usbcore.autosuspend=-1\"/" $MOUNT_DIR/etc/default/grub
     sed -i -e "s/#GRUB_DISABLE_SUBMENU=y/GRUB_DISABLE_SUBMENU=y/" $MOUNT_DIR/etc/default/grub
     ## Initialize GRUB
-    arch-chroot $MOUNT_DIR grub-mkconfig -o $MOUNT_DIR/boot/grub/grub.cfg
+    arch-chroot $MOUNT_DIR grub-mkconfig -o /boot/grub/grub.cfg
 
     ## Install Gaming Related Packages
     if [[ "$GAMING" == "true" ]]; then
@@ -241,7 +240,6 @@ install_os() {
     arch-chroot $MOUNT_DIR gpasswd -a $USERNAME flatpak
     arch-chroot $MOUNT_DIR gpasswd -a $USERNAME games
     arch-chroot $MOUNT_DIR gpasswd -a $USERNAME realtime
-    arch-chroot $MOUNT_DIR gpasswd -a $USERNAME rtkit
     arch-chroot $MOUNT_DIR gpasswd -a $USERNAME video
     arch-chroot $MOUNT_DIR gpasswd -a $USERNAME wheel
     echo "Installed Archlinux OS..." && sleep 5
@@ -249,11 +247,11 @@ install_os() {
 
 ##<-- Partition Drives -->
 partition_system() {
-    ## Create A BTRFS root partition
-    mkfs.btrfs -f ${INSTALL_DEVICE}
-
     ## Create A UEFI Boot Partition
     mkfs.vfat -F32 ${BOOT_DEVICE}
+
+    ## Create A BTRFS root partition
+    mkfs.btrfs -f ${INSTALL_DEVICE}
     echo "Formatted Partitions..." && sleep 5
 }
 
