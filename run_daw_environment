@@ -1,10 +1,11 @@
 #!/bin/sh
+### Dependencies are gamemode and wine with fsync patches ###
 
 # Audio Samplerate Override (i.e. 44100,48000,88200)
 SAMPLERATE=48000
 # Buffer Period Blocksize (i.e 64,128,256)
-BUFFERSIZE=64
-# Path To DAW Binary (i.e. /usr/bin/ardour6 or just the binary name if it is detected by the $PATH enviornment variable. i.e. ardour6)
+BUFFERSIZE=256
+# Path To DAW Binary (i.e. /usr/bin/ardour6)
 DAW_BIN=/usr/bin/ardour6
 
 ## Set Samplerate and Blocksize
@@ -12,7 +13,7 @@ pw-metadata -n settings 0 clock.force-rate ${SAMPLERATE}
 pw-metadata -n settings 0 clock.force-quantum ${BUFFERSIZE}
 
 ## Start Feral Gamemode To Boost Thread Priorities for DAW
-gamemoderun $DAW_BIN
+WINEFSYNC=1 gamemoderun $DAW_BIN
 
 ## Set Samplerate and Blocksize Back To Default Settings
 pw-metadata -n settings 0 clock.force-rate 0
