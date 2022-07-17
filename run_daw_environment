@@ -1,5 +1,8 @@
 #!/bin/sh
-### Dependencies are gamemode and wine with fsync patches ###
+### Dependencies are cpupower, gamemode and wine with fsync patches ###
+
+## Get default CPU governor
+DEFAULT_GOV=`cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor`
 
 # Audio Samplerate Override (i.e. 44100,48000,88200)
 SAMPLERATE=48000
@@ -7,6 +10,9 @@ SAMPLERATE=48000
 BUFFERSIZE=256
 # Path To DAW Binary (i.e. /usr/bin/ardour6)
 DAW_BIN=/usr/bin/ardour6
+
+## Change CPU governor to performance (Requires root password/admin user's password)
+pkexec cpupower frequency-set -g performance
 
 ## Set Samplerate and Blocksize
 pw-metadata -n settings 0 clock.force-rate ${SAMPLERATE}
@@ -21,3 +27,6 @@ pw-metadata -n settings 0 clock.force-quantum 0
 
 ## Stop Feral Gamemode
 pkill -9 gamemoded
+
+## Change CPU governor to default setting (Requires root password/admin user's password)
+pkexec cpupower frequency-set -g $DEFAULT_GOV
