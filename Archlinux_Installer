@@ -175,7 +175,7 @@ install_os() {
     arch-chroot $MOUNT_DIR grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id="$DISTRO_NAME" $BOOT_DEVICE
     ## Configure GRUB
     sed -i -e "s/GRUB_TIMEOUT=5/GRUB_TIMEOUT=0/" $MOUNT_DIR/etc/default/grub
-    sed -i -e "s/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 quiet\"/GRUB_CMDLINE_LINUX_DEFAULT=\"root=LABEL=${DISTRO_NAME} rootfstype=btrfs resume=LABEL=${DISTRO_NAME} rootflags=subvol=@ loglevel=3 lsm=landlock,lockdown,yama,apparmor,bpf threadirqs usbcore.autosuspend=-1\"/" $MOUNT_DIR/etc/default/grub
+    sed -i -e "s/GRUB_CMDLINE_LINUX_DEFAULT=\"loglevel=3 quiet\"/GRUB_CMDLINE_LINUX_DEFAULT=\"root=LABEL=${DISTRO_NAME} rootfstype=btrfs resume=LABEL=${DISTRO_NAME} rootflags=subvol=@ loglevel=3 lsm=landlock,lockdown,yama,apparmor,bpf mitigations=off threadirqs usbcore.autosuspend=-1\"/" $MOUNT_DIR/etc/default/grub
     sed -i -e "s/#GRUB_DISABLE_SUBMENU=y/GRUB_DISABLE_SUBMENU=y/" $MOUNT_DIR/etc/default/grub
     ## Initialize GRUB
     arch-chroot $MOUNT_DIR grub-mkconfig -o /boot/grub/grub.cfg
