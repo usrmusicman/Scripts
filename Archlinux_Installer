@@ -38,7 +38,7 @@ DETECT_GPU=`lspci | grep VGA | cut -d ":" -f 3 | cut -d " " -f 2`
 #<-- OS Install List -->
 
 ## Install GNOME desktop
-INSTALL_OS="alsa-utils apparmor appmenu-gtk-module archlinux-appstream-data argyllcms ark audiocd-kio base base-devel bash-completion bluez bluez-hid2hci bluez-plugins bluez-tools btrfs-progs cdparanoia cdrdao cdrtools chmlib clang colord-sane cups cups-filters cups-pdf darktable dbus-broker dcraw debuginfod digikam dolphin dolphin-plugins dvd+rw-tools e2fsprogs easy-rsa ebook-tools efibootmgr elisa emovix espeak-ng exfatprogs ffmpegthumbs firefox firewalld flatpak freerdp fwupd fwupd-efi git gnome-themes-standard gnu-free-fonts gnuplot grub grub-btrfs gst-libav gst-plugin-msdk gst-plugin-opencv gst-plugin-pipewire gst-plugins-bad gst-plugins-bad-libs gst-plugins-base gst-plugins-base-libs gst-plugins-espeak gst-plugins-good gst-plugins-ugly gst-rtsp-server gwenview handbrake hunspell hunspell-en_au hunspell-en_ca hunspell-en_gb hunspell-en_us icoutils ifuse iwd k3b kaccounts-providers kamera kate kcalc kde-cli-tools kdeconnect kdegraphics-mobipocket kdegraphics-thumbnailers kdialog keditbookmarks kf5 kf5-aids kfind kid3 kio-extras kio-gdrive konsole konversation krdc krename krfb krita krita-plugin-gmic kseexpr kwalletmanager lib32-alsa-plugins lib32-gamemode lib32-gst-plugins-base lib32-gst-plugins-good lib32-libappindicator-gtk2 lib32-libappindicator-gtk3 lib32-libva-mesa-driver lib32-libxslt lib32-mesa-vdpau lib32-ocl-icd lib32-opencl-mesa lib32-pipewire-jack lib32-pipewire-v4l2 lib32-vulkan-mesa-layers libappimage libdbusmenu-gtk2 libdbusmenu-gtk3 libdbusmenu-qt5 libdbusmenu-qt6 libdecor libdvdcss libdvdnav libdvdread libgpod libjxl libmypaint libmythes libnfs libpipewire02 libreoffice-fresh libva-mesa-driver libwmf libxslt linux-firmware linux-zen linux-zen-headers lirc lrzip lsb-release lua52-socket lzop man-db man-pages markdownpart mkinitcpio mkinitcpio-utils mlocate mtools multilib-devel mythes-en net-tools networkmanager networkmanager-openvpn noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra ntfs-3g okteta okular openssh opentimelineio opus-tools orca os-prober p7zip packagekit-qt5 partitionmanager perl-image-exiftool phonon-qt5-gstreamer phonon-qt5-vlc pipewire pipewire-alsa pipewire-jack pipewire-pulse pipewire-v4l2 pipewire-x11-bell pipewire-zeroconf plasma poppler-data poppler-qt5 power-profiles-daemon print-manager python-lsp-server python-pyqt5 qbittorrent qpwgraph qt5-imageformats qt5-multimedia qt5-wayland qt6-wayland quota-tools realtime-privileges rtirq rust skanpage soundkonverter sox spectacle speech-dispatcher sshfs subversion sudo svgpart telepathy telepathy-kde thunderbird timidity++ transcode ttf-dejavu ttf-liberation unace unarchiver unrar unzip usb_modeswitch usbutils vcdimager vim vim-runtime vlc vorbisgain vorbis-tools vulkan-mesa-layers wget wireless-regdb wireplumber words xdg-desktop-portal xdg-user-dirs-gtk xf86-input-libinput xorg-xgamma xsettingsd youtube-dl zip zram-generator"
+INSTALL_OS="alsa-utils apparmor archlinux-appstream-data base base-devel bash-completion bluez bluez-hid2hci bluez-plugins bluez-tools btrfs-progs celluloid cheese clang colord-sane cups cups-filters cups-pdf darktable devhelp easy-rsa ebook-tools efibootmgr eog eog-plugins epiphany espeak-ng evince evolution evolution-ews exfatprogs file-roller firefox flatpak flatpak-builder fprintd fragments fwupd fwupd-efi gdm gedit gedit-plugins ghex gimp gimp-nufraw gimp-plugin-gmic git gitg gnome-appfolders-manager gnome-autoar gnome-backgrounds gnome-books gnome-boxes gnome-builder gnome-calculator gnome-calendar gnome-clocks gnome-code-assistance gnome-connections gnome-contacts gnome-control-center gnome-dictionary gnome-disk-utility gnome-epub-thumbnailer gnome-font-viewer gnome-info-collect gnome-keyring gnome-logs gnome-maps gnome-nettool gnome-notes gnome-passwordsafe gnome-photos gnome-podcasts gnome-recipes gnome-remote-desktop gnome-screenshot gnome-software gnome-software-packagekit-plugin gnome-shell-extension-appindicator gnome-sound-recorder gnome-system-monitor gnome-todo gnome-tweaks gnome-usage gnome-user-share gnome-weather gnu-free-fonts go grub grub-btrfs gst-libav gst-plugin-msdk gst-plugin-opencv gst-plugin-pipewire gst-plugins-bad gst-plugins-bad-libs gst-plugins-base gst-plugins-base-libs gst-plugins-espeak gst-plugins-good gst-plugins-ugly gst-rtsp-server gucharmap gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb handbrake helvum hunspell hunspell-en_au hunspell-en_ca hunspell-en_gb hunspell-en_us jedi-language-server kvantum lib32-libappindicator-gtk2 lib32-libappindicator-gtk3 lib32-libva-mesa-driver lib32-mesa-vdpau lib32-ocl-icd lib32-opencl-mesa lib32-vulkan-mesa-layers libappindicator-gtk2 libappindicator-gtk3 libdvdcss libdvdnav libdvdread libgpod libreoffice-fresh libva-mesa-driver linux-firmware linux-zen linux-zen-headers lollypop lrzip lsb-release malcontent man-db man-pages mkinitcpio mkinitcpio-utils mtools multilib-devel mythes-en nautilus nautilus-sendto net-tools networkmanager networkmanager-openvpn ntfs-3g ocl-icd opencl-clhpp opencl-headers opencl-mesa openssh orca os-prober p7zip phonon-qt5-gstreamer pipewire pipewire-alsa pipewire-jack pipewire-pulse pipewire-v4l2 pipewire-x11-bell pipewire-zeroconf polari power-profiles-daemon pulsemixer python-nautilus qt5-wayland qt6-wayland realtime-privileges rtirq rygel simple-scan soundconverter squashfs-tools subversion sudo sushi system-config-printer sysprof tilix ttf-dejavu ttf-liberation tumbler unace unoconv unrar usbguard unzip vdpauinfo vim vim-runtime vino vulkan-mesa-layers wget wireless-regdb wireplumber xdg-desktop-portal xdg-desktop-portal-gnome xdg-desktop-portal-gtk xdg-user-dirs-gtk xf86-input-evdev xf86-input-libinput xsettingsd yelp youtube-dl yt-dlp zip zram-generator"
 
 ## Gaming Related Packages
 INSTALL_GAMING="dosbox gamemode gamescope lutris steam steam-native-runtime"
@@ -46,13 +46,13 @@ INSTALL_GAMING="dosbox gamemode gamescope lutris steam steam-native-runtime"
 #<-- GPU Driver Install List -->
 
 ## AMD GPU DRIVERS
-AMD_DRV="amf-headers lib32-vulkan-radeon vulkan-radeon"
+AMD_DRV="amf-headers lib32-vulkan-radeon vulkan-radeon xf86-video-ati"
 
 ## INTEL GPU DRIVERS
-INTEL_DRV="intel-compute-runtime intel-media-driver lib32-vulkan-intel vulkan-intel"
+INTEL_DRV="intel-compute-runtime intel-media-driver lib32-vulkan-intel vulkan-intel xf86-video-intel"
 
 ## NVIDIA GPU DRIVERS
-NVIDIA_DRV="lib32-libva-vdpau-driver lib32-mesa-vdpau lib32-nvidia-cg-toolkit lib32-nvidia-utils lib32-opencl-nvidia libva-vdpau-driver libvdpau-va-gl nvidia-cg-toolkit nvidia-dkms nvidia-settings nvidia-utils opencl-nvidia vdpauinfo"
+NVIDIA_DRV="lib32-libva-vdpau-driver lib32-mesa-vdpau lib32-nvidia-cg-toolkit lib32-nvidia-utils lib32-opencl-nvidia libva-vdpau-driver libvdpau-va-gl nvidia-cg-toolkit nvidia-dkms nvidia-settings nvidia-utils opencl-nvidia vdpauinfo xf86-video-nouveau"
 
 ##<-- Install System, DO NOT EDIT BELOW THIS POINT IF YOU DON'T KNOW WHAT YOU'RE DOING! -->
 
@@ -197,6 +197,7 @@ install_os() {
     echo "$HOSTNAME" > $MOUNT_DIR/etc/hostname
 
     ## Configure global environment
+    echo "QT_STYLE_OVERRIDE=kvantum" >> $MOUNT_DIR/etc/environment
     echo "EDITOR=/usr/bin/vim" >> $MOUNT_DIR/etc/environment
 
     ## Set system language
@@ -234,10 +235,11 @@ install_os() {
     arch-chroot $MOUNT_DIR systemctl enable cups-browsed.service
     arch-chroot $MOUNT_DIR systemctl enable dbus-broker.service
     arch-chroot $MOUNT_DIR systemctl enable fstrim.timer
+    arch-chroot $MOUNT_DIR systemctl enable gdm.service
+    arch-chroot $MOUNT_DIR systemctl enable libvirtd.service
     arch-chroot $MOUNT_DIR systemctl enable NetworkManager.service
     arch-chroot $MOUNT_DIR systemctl enable rtirq.service
     arch-chroot $MOUNT_DIR systemctl enable rtirq-resume.service
-    arch-chroot $MOUNT_DIR systemctl enable sddm.service
 
     ## Enable desktop services for user group
     arch-chroot $MOUNT_DIR systemctl enable --global dbus-broker.service
@@ -247,6 +249,8 @@ install_os() {
     arch-chroot $MOUNT_DIR gpasswd -a $USERNAME cups
     arch-chroot $MOUNT_DIR gpasswd -a $USERNAME flatpak
     arch-chroot $MOUNT_DIR gpasswd -a $USERNAME games
+    arch-chroot $MOUNT_DIR gpasswd -a $USERNAME libvirt
+    arch-chroot $MOUNT_DIR gpasswd -a $USERNAME libvirt-qemu
     arch-chroot $MOUNT_DIR gpasswd -a $USERNAME realtime
     arch-chroot $MOUNT_DIR gpasswd -a $USERNAME rtkit
     arch-chroot $MOUNT_DIR gpasswd -a $USERNAME video
