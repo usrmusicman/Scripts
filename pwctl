@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if (($# == 2)); then
+	## Variables
+	SAMPLERATE=$1
+	BUFFERSIZE=$2
+
+	## Samplerate And Buffersize Change
+	pw-metadata -n settings 0 clock.force-rate ${SAMPLERATE}
+	pw-metadata -n settings 0 clock.force-quantum ${BUFFERSIZE}
+else
+	echo -e "pwctl [samplerate] [buffer size]\npwctl 48000 256"
+fi

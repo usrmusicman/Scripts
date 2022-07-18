@@ -1,0 +1,19 @@
+#!/bin/sh
+cpu_gov_list=(`cpupower frequency-info | grep "available cpufreq governors" | cut -d ":" -f 2`)
+arrayLength=${#cpu_gov_list[@]}
+
+if [[ $# != 1 ]]; then
+	echo "Available CPU Governors"
+	for (( x=0; x<${arrayLength}; x++ ));
+	do
+		echo "${cpu_gov_list[x]}"
+	done
+	echo -e "\nPlease pass the governors name as an argument\ncpu_gov_sw [CPU governor name]\ncpu_gov_sw performance"
+else
+	for (( x=0; x<${arrayLength}; x++ ));
+	do
+		 if [[ $1 == ${cpu_gov_list[x]} ]]; then
+			 pkexec cpupower frequency-set -g ${cpu_gov_list[x]}
+		 fi
+	done
+fi
