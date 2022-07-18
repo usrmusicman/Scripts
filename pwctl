@@ -1,5 +1,7 @@
 #!/bin/sh
 
+## Maintainer Alexander Mcmillan <linuxguy93@gmail.com>
+
 if (($# == 2)); then
 	## Variables
 	SAMPLERATE=$1

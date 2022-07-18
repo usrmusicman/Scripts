@@ -1,7 +1,12 @@
 #!/bin/sh
+
+## Maintainer Alexander Mcmillan <linuxguy93@gmail.com>
+
+## Variables
 _reponame=$1
 _archive=xz
 
+## Script
 if [[ $# == 1 ]]; then
 	for file in ${_reponame}.db ${_reponame}.db.tar.${_archive} ${_reponame}.files ${_reponame}.files.tar.${_archive}; do
 		if [ -f $file ]; then

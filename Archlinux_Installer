@@ -1,28 +1,30 @@
 #!/bin/sh
 
+## Maintainer Alexander Mcmillan <linuxguy93@gmail.com>
+
 ## Make sure to have pacman.conf in the same directory as Archlinux_Installer before executing this script.
 
 ## Distribution Name, ENSURE NO SPACES IN NAME
 DISTRO_NAME="Archlinux"
 
 # Which partition is used for the bootloader. Use 'blkid' command to get device name. (i.e. /dev/sda1)
-BOOT_DEVICE=""
+BOOT_DEVICE="/dev/nvme0n1p1"
 # Which device to install the operating system on. Use 'blkid' command to get device name. (i.e. /dev/sda2)
-INSTALL_DEVICE=""
+INSTALL_DEVICE="/dev/nvme0n1p2"
 # Mountpoint for install. (i.e. /mnt)
-MOUNT_DIR=""
+MOUNT_DIR="/mnt"
 
 # Computer and User Credentials
-HOSTNAME=""
-USERNAME=""
-PASSWORD=""
+HOSTNAME="alienwareaurorar8"
+USERNAME="alienware"
+PASSWORD="Artm1993#!"
 
 # Keymap to use. Use the command 'localectl list-keymaps' to find your keyboard type (i.e. us)
-KEYMAP=""
+KEYMAP="us"
 # System Locale/Language. Use the command 'cat /etc/locale.gen'. (i.e. en_US.UTF-8)
-LOCALE=""
+LOCALE="en_CA.UTF-8"
 # Your Timezone. Use the command 'timedatectl list-timezones' to find your timezone. (i.e. America/Toronto)
-TIMEZONE=""
+TIMEZONE="America/Toronto"
 
 # Do you want to format the partition type 'true' if you do, else the system will not be formatted. (default is true)
 FORMAT_DEVICE="true"
@@ -38,10 +40,10 @@ DETECT_GPU=`lspci | grep VGA | cut -d ":" -f 3 | cut -d " " -f 2`
 #<-- OS Install List -->
 
 ## Install GNOME desktop
-INSTALL_OS="alsa-utils apparmor archlinux-appstream-data base base-devel bash-completion bluez bluez-hid2hci bluez-plugins bluez-tools btrfs-progs celluloid cheese clang colord-sane cups cups-filters cups-pdf darktable devhelp easy-rsa ebook-tools efibootmgr eog eog-plugins epiphany espeak-ng evince evolution evolution-ews exfatprogs file-roller firefox flatpak flatpak-builder fprintd fragments fwupd fwupd-efi gdm gedit gedit-plugins ghex gimp gimp-nufraw gimp-plugin-gmic git gitg gnome-appfolders-manager gnome-autoar gnome-backgrounds gnome-books gnome-boxes gnome-builder gnome-calculator gnome-calendar gnome-clocks gnome-code-assistance gnome-connections gnome-contacts gnome-control-center gnome-dictionary gnome-disk-utility gnome-epub-thumbnailer gnome-font-viewer gnome-info-collect gnome-keyring gnome-logs gnome-maps gnome-nettool gnome-notes gnome-passwordsafe gnome-photos gnome-podcasts gnome-recipes gnome-remote-desktop gnome-screenshot gnome-software gnome-software-packagekit-plugin gnome-shell-extension-appindicator gnome-sound-recorder gnome-system-monitor gnome-todo gnome-tweaks gnome-usage gnome-user-share gnome-weather gnu-free-fonts go grub grub-btrfs gst-libav gst-plugin-msdk gst-plugin-opencv gst-plugin-pipewire gst-plugins-bad gst-plugins-bad-libs gst-plugins-base gst-plugins-base-libs gst-plugins-espeak gst-plugins-good gst-plugins-ugly gst-rtsp-server gucharmap gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb handbrake helvum hunspell hunspell-en_au hunspell-en_ca hunspell-en_gb hunspell-en_us jedi-language-server kvantum lib32-libappindicator-gtk2 lib32-libappindicator-gtk3 lib32-libva-mesa-driver lib32-mesa-vdpau lib32-ocl-icd lib32-opencl-mesa lib32-vulkan-mesa-layers libappindicator-gtk2 libappindicator-gtk3 libdvdcss libdvdnav libdvdread libgpod libreoffice-fresh libva-mesa-driver linux-firmware linux-zen linux-zen-headers lollypop lrzip lsb-release malcontent man-db man-pages mkinitcpio mkinitcpio-utils mtools multilib-devel mythes-en nautilus nautilus-sendto net-tools networkmanager networkmanager-openvpn ntfs-3g ocl-icd opencl-clhpp opencl-headers opencl-mesa openssh orca os-prober p7zip phonon-qt5-gstreamer pipewire pipewire-alsa pipewire-jack pipewire-pulse pipewire-v4l2 pipewire-x11-bell pipewire-zeroconf polari power-profiles-daemon pulsemixer python-nautilus qt5-wayland qt6-wayland realtime-privileges rtirq rygel simple-scan soundconverter squashfs-tools subversion sudo sushi system-config-printer sysprof tilix ttf-dejavu ttf-liberation tumbler unace unoconv unrar usbguard unzip vdpauinfo vim vim-runtime vino vulkan-mesa-layers wget wireless-regdb wireplumber xdg-desktop-portal xdg-desktop-portal-gnome xdg-desktop-portal-gtk xdg-user-dirs-gtk xf86-input-evdev xf86-input-libinput xsettingsd yelp youtube-dl yt-dlp zip zram-generator"
+INSTALL_OS="alsa-utils apparmor archlinux-appstream-data atomicparsley base base-devel bash-completion bluez bluez-hid2hci bluez-plugins bluez-tools btrfs-progs celluloid cheese clang colord-sane cups cups-filters cups-pdf darktable dcraw devhelp easy-rsa easytag ebook-tools efibootmgr eog eog-plugins epiphany espeak-ng evince evolution evolution-ews exfatprogs ffmpegthumbnailer file-roller firefox flatpak flatpak-builder fprintd fragments fwupd fwupd-efi gdm gedit gedit-plugins ghex ghostscript gimp gimp-nufraw gimp-plugin-gmic git gitg gnome-appfolders-manager gnome-autoar gnome-backgrounds gnome-books gnome-boxes gnome-builder gnome-calculator gnome-calendar gnome-clocks gnome-code-assistance gnome-connections gnome-contacts gnome-control-center gnome-dictionary gnome-disk-utility gnome-epub-thumbnailer gnome-font-viewer gnome-info-collect gnome-keyring gnome-logs gnome-maps gnome-nettool gnome-notes gnome-passwordsafe gnome-photos gnome-podcasts gnome-remote-desktop gnome-screenshot gnome-shell-extension-appindicator gnome-software gnome-software-packagekit-plugin gnome-sound-recorder gnome-system-monitor gnome-terminal gnome-themes-standard gnome-todo gnome-tweaks gnome-usage gnome-user-share gnome-weather gnu-free-fonts gnuplot go grub grub-btrfs gst-libav gst-plugin-msdk gst-plugin-opencv gst-plugin-pipewire gst-plugins-bad gst-plugins-bad-libs gst-plugins-base gst-plugins-base-libs gst-plugins-espeak gst-plugins-good gst-plugins-ugly gst-rtsp-server gucharmap gvfs-afc gvfs-goa gvfs-google gvfs-gphoto2 gvfs-mtp gvfs-nfs gvfs-smb handbrake helvum hunspell hunspell-en_au hunspell-en_ca hunspell-en_gb hunspell-en_us jedi-language-server kvantum libappindicator-gtk2 libappindicator-gtk3 libdvdcss libdvdnav libdvdread libgpod libmythes libopenraw libreoffice-fresh libva-mesa-driver linux-firmware linux-zen linux-zen-headers logrotate lollypop lrzip lsb-release malcontent man-db man-pages mkinitcpio mkinitcpio-utils mtools multilib-devel mythes-en nautilus nautilus-sendto net-tools networkmanager networkmanager-openvpn ntfs-3g ocl-icd opencl-clhpp opencl-headers opencl-mesa openssh orca os-prober p7zip perl-image-exiftool phonon-qt5-gstreamer pipewire pipewire-alsa pipewire-jack pipewire-pulse pipewire-v4l2 pipewire-x11-bell pipewire-zeroconf polari power-profiles-daemon pulsemixer python-nautilus python-pycryptodome python-pysmbc qt5-wayland qt6-wayland realtime-privileges rtirq rygel simple-scan soundconverter squashfs-tools subversion sudo sushi sysprof system-config-printer ttf-dejavu ttf-liberation tumbler unace unoconv unrar unzip usbguard vdpauinfo vim vim-runtime vino vulkan-mesa-layers wget wireless-regdb wireplumber xdg-desktop-portal xdg-desktop-portal-gnome xdg-desktop-portal-gtk xdg-user-dirs-gtk xf86-input-evdev xf86-input-libinput xsettingsd yelp youtube-dl yt-dlp zip zram-generator"
 
 ## Gaming Related Packages
-INSTALL_GAMING="dosbox gamemode gamescope lutris steam steam-native-runtime"
+INSTALL_GAMING="alsa-plugins dosbox gamemode gamescope lib32-alsa-plugins lib32-gamemode lib32-gst-plugins-base lib32-gst-plugins-base-libs lib32-gst-plugins-good lib32-libappindicator-gtk2 lib32-libappindicator-gtk3 lib32-libva-mesa-driver lib32-libxslt lib32-mesa-vdpau lib32-ocl-icd lib32-opencl-mesa lib32-pipewire lib32-pipewire-jack lib32-pipewire-v4l2 lib32-v4l-utils lib32-vkd3d lib32-vulkan-mesa-layers libxslt lutris steam steam-native-runtime vkd3d wine-staging winetricks"
 
 #<-- GPU Driver Install List -->
 

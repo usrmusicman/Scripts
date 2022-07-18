@@ -1,7 +1,12 @@
 #!/bin/sh
+
+## Maintainer Alexander Mcmillan <linuxguy93@gmail.com>
+
+## Variables
 cpu_gov_list=(`cpupower frequency-info | grep "available cpufreq governors" | cut -d ":" -f 2`)
 arrayLength=${#cpu_gov_list[@]}
 
+## Script
 if [[ $# != 1 ]]; then
 	echo "Available CPU Governors"
 	for (( x=0; x<${arrayLength}; x++ ));
